@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Controllers\Functions\FunctionControl;
 use App\Http\Controllers\Webpanel\LogsController;
 use App\Models\Backend\CleanerModel;
+use App\Models\Backend\CustomerModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
@@ -65,6 +66,7 @@ class CleanerController extends Controller
 
     public function add(Request $request)
     {
+        $customer = CustomerModel::all();
         $navs = [
             '0' => ['url' => "$this->segment", 'name' => 'Dashboard', 'last' => 0],
             '1' => ['url' => "$this->segment/$this->folder", 'name' => "$this->pagename", 'last' => 0],
@@ -77,11 +79,13 @@ class CleanerController extends Controller
             'segment' => $this->segment,
             'pagename' => $this->pagename,
             'navs' => $navs,
+            'customer' => $customer,
         ]);
     }
 
     public function edit(Request $request, $id)
     {
+        $customer = CustomerModel::all();
         $navs = [
             '0' => ['url' => "$this->segment", 'name' => 'Dashboard', 'last' => 0],
             '1' => ['url' => "$this->segment/$this->folder", 'name' => "$this->pagename", 'last' => 0],
@@ -94,6 +98,7 @@ class CleanerController extends Controller
             'segment' => $this->segment,
             'navs' => $navs,
             'row' => CleanerModel::find($id),
+            'customer' => $customer,
         ]);
     }
 
@@ -143,13 +148,13 @@ class CleanerController extends Controller
                 $data = new CleanerModel();
                 $data->created_at = date('Y-m-d H:i:s');
                 $data->updated_at = date('Y-m-d H:i:s');
-                $data->password = bcrypt($request->password);
+                // $data->password = bcrypt($request->password);
             } else {
                 $data = CleanerModel::find($id);
                 $data->updated_at = date('Y-m-d H:i:s');
-                if ($request->resetpassword == 'on') {
-                    $data->password = bcrypt($request->password);
-                }
+                // if ($request->resetpassword == 'on') {
+                //     $data->password = bcrypt($request->password);
+                // }
             }
             // $data->role = $request->role;
             $data->isActive = $request->isActive;
@@ -157,9 +162,11 @@ class CleanerController extends Controller
             $data->lastname = $request->lastname;
             $data->email = $request->email;
             $data->phone = $request->phone;
-            $data->idcard = $request->idcard;
-            $data->sex = $request->sex;
-            $data->birthday = date('Y-m-d', strtotime($request->birthday));
+            $data->customer_id = $request->customer_id;
+
+            // $data->idcard = $request->idcard;
+            // $data->sex = $request->sex;
+            // $data->birthday = date('Y-m-d', strtotime($request->birthday));
 
             // Image upload
             $file = $request->image;

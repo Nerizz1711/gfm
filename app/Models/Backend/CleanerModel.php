@@ -25,6 +25,7 @@ class CleanerModel extends Model
      */
     protected $table = 'tb_cleaner';
     protected $fillable = [
+        'phone',
         'name',
         'email',
         'password',
@@ -41,6 +42,10 @@ class CleanerModel extends Model
         'password',
         'remember_token',
     ];
+    public function fullname()
+    {
+        return $this->firstname . ' ' . $this->lastname;
+    }
 
     /**
      * The attributes that should be cast to native types.
