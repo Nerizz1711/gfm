@@ -29,7 +29,7 @@ class CleanerController extends Controller
         $isActive = Arr::get($parameters, 'status');
         $keyword = Arr::get($parameters, 'keyword');
         $paginate = Arr::get($parameters, 'total', 15);
-        $query = new CleanerModel();
+        $query = CleanerModel::with('customer');
         if ($isActive) {
             $query = $query->where('isActive', $isActive);
         }
@@ -66,7 +66,6 @@ class CleanerController extends Controller
 
     public function add(Request $request)
     {
-        $customer = CustomerModel::all();
         $navs = [
             '0' => ['url' => "$this->segment", 'name' => 'Dashboard', 'last' => 0],
             '1' => ['url' => "$this->segment/$this->folder", 'name' => "$this->pagename", 'last' => 0],
@@ -79,13 +78,13 @@ class CleanerController extends Controller
             'segment' => $this->segment,
             'pagename' => $this->pagename,
             'navs' => $navs,
-            'customer' => $customer,
+            'customer' => CustomerModel::where('isActive', 'Y')->get(),
         ]);
     }
 
     public function edit(Request $request, $id)
     {
-        $customer = CustomerModel::all();
+        
         $navs = [
             '0' => ['url' => "$this->segment", 'name' => 'Dashboard', 'last' => 0],
             '1' => ['url' => "$this->segment/$this->folder", 'name' => "$this->pagename", 'last' => 0],
@@ -98,7 +97,8 @@ class CleanerController extends Controller
             'segment' => $this->segment,
             'navs' => $navs,
             'row' => CleanerModel::find($id),
-            'customer' => $customer,
+            'customer' => CustomerModel::where('isActive', 'Y')->get(),
+
         ]);
     }
 

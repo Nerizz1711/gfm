@@ -113,8 +113,9 @@
                                                 </div>
                                             </div>
                                         </div>
+
                                         <div class="col-md-9 mb-5">
-                                            <div class="card card-flush py-4">
+                                            <div class="card card-flush py-4 mb-3">
                                                 <div class="card-header">
                                                     <div class="card-title">
                                                         <h2>General</h2>
@@ -128,30 +129,22 @@
                                                                 class="form-control mb-2" placeholder="Phone number"
                                                                 value="{{ @$row->phone }}">
                                                         </div>
+
                                                         <div class="col-md-6">
-                                                            <label class="required form-label">ID card </label>
-                                                            <input type="text" id="idcard" name="idcard"
-                                                                onchange="CheckIDcard(this.value)"
-                                                                class="form-control mb-2" placeholder="ID card"
-                                                                value="{{ @$row->idcard }}">
+                                                            <label class="required form-label">Email </label>
+                                                            <input type="text" id="email" name="email"
+                                                                class="form-control mb-2" placeholder="email"
+                                                                value="{{ @$row->email }}">
                                                         </div>
                                                     </div>
 
-                                                    <div class="row mb-3">
-                                                        <div class="col-md-12">
-                                                            <input type="checkbox" id="resetpassword"
-                                                                name="resetpassword"> Change password
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="row">
+                                                    {{-- <div class="row">
                                                         <div class="col-md-6 mb-5">
-                                                            <label class="form-label">Password </label>
+                                                            <label class="required form-label">Password </label>
                                                             <div class="input-group col-mb-6">
                                                                 <input type="password" id="password"
                                                                     class="form-control" name="password"
-                                                                    placeholder="Password" autocomplete="off"
-                                                                    disabled="disabled">
+                                                                    placeholder="Password" autocomplete="off">
                                                                 <div class="input-group-append">
                                                                     <div class="input-group-text">
                                                                         <span class="card-link show_pass"><i
@@ -162,12 +155,12 @@
                                                             </div>
                                                         </div>
                                                         <div class="col-md-6 mb-5">
-                                                            <label class="form-label">Confirm password </label>
+                                                            <label class="required form-label">Confirm password
+                                                            </label>
                                                             <div class="input-group col-mb-6">
                                                                 <input type="password" id="confirm_password"
                                                                     class="form-control" name="confirm_password"
-                                                                    placeholder="Confirm password" autocomplete="off"
-                                                                    disabled="disabled">
+                                                                    placeholder="Confirm password" autocomplete="off">
                                                                 <div class="input-group-append">
                                                                     <div class="input-group-text">
                                                                         <span class="card-link show_pass_confirm"><i
@@ -177,7 +170,7 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    </div>
+                                                    </div> --}}
 
                                                     <div class="row">
                                                         <div class="col-md-6">
@@ -194,45 +187,54 @@
                                                         </div>
                                                     </div>
 
-                                                    <div class="row">
+
+                                                    {{-- <div class="row">
                                                         <div class="col-md-6">
                                                             <label class="required form-label">Gender </label>
                                                             <select name="sex" id="sex"
                                                                 class="form-select mb-2">
-                                                                <option value="Male"
-                                                                    @if (@$row->isActive == 'Male') selected @endif>
-                                                                    Male</option>
-                                                                <option value="Female"
-                                                                    @if (@$row->isActive == 'Female') selected @endif>
-                                                                    Female</option>
-                                                                <option value="None"
-                                                                    @if (@$row->isActive == 'None') selected @endif>
-                                                                    None</option>
+                                                                <option disable hidden selected value="">Please
+                                                                    Select</option>
+                                                                <option value="Male">Male</option>
+                                                                <option value="Female">Female</option>
+                                                                <option value="None">None</option>
                                                             </select>
                                                         </div>
                                                         <div class="col-md-6">
                                                             <label class="required form-label">Date of Birth </label>
                                                             <input type="date" id="birthday" name="birthday"
                                                                 class="form-control mb-2" placeholder="DD/MM/YYYY"
-                                                                value="{{ @$row->birthday }}">
+                                                                value="">
                                                         </div>
-                                                    </div>
+                                                    </div> --}}
 
+                                                </div>
+                                            </div>
+
+                                            <div class="card card-flush py-4 mb-3">
+                                                <div class="card-header">
+                                                    <div class="card-title">
+                                                        <h2>Customer</h2>
+                                                    </div>
+                                                </div>
+                                                <div class="card-body pt-0">
                                                     <div class="row">
-                                                        <div class="col-md-6">
-                                                            <label class="required form-label">Email </label>
-                                                            <input type="text" id="email" name="email"
-                                                                class="form-control mb-2" placeholder="email"
-                                                                value="{{ @$row->email }}">
-                                                        </div>
-                                                        <div class="col-md-6">
-                                                            <label class="form-label">Invite ID </label>
-                                                            <input type="text" id="invite_id" name="invite_id"
-                                                                class="form-control mb-2" placeholder="Invite ID"
-                                                                value="{{ @$row->invite_id }}">
-                                                        </div>
+                                                        <select name="customer_id" id="customer_id"
+                                                            class="form-select" required>
+                                                            <option value="" hidden>Please select customer
+                                                            </option>
+                                                            <option value="">No select</option>
+                                                            @if (isset($customer))
+                                                                @foreach ($customer as $customer)
+                                                                    <option
+                                                                        value="{{ $customer->id }}" @if (@$customer->id == @$row->customer_id) selected @endif>
+                                                                        {{ @$customer->firstname }}
+                                                                        {{ @$customer->lastname }}
+                                                                    </option>
+                                                                @endforeach
+                                                            @endif
+                                                        </select>
                                                     </div>
-
                                                 </div>
                                             </div>
                                         </div>
@@ -323,26 +325,31 @@
             var formData = new FormData($("#form_submit")[0]);
 
             var email = $('#email').val();
-            var password = $('#password').val();
-            var confirm_password = $('#confirm_password').val();
-            var firstname = $('#firstname').val();
-            var lastname = $('#lastname').val();
             var check_mail =
                 /^([0-9a-zA-Z]([-_\\.]*[0-9a-zA-Z]+)*)@([0-9a-zA-Z]([-_\\.]*[0-9a-zA-Z]+)*)[\\.]([a-zA-Z]{2,9})$/;
             var phone = $('#phone').val();
-            var birthday = $('#birthday').val();
-            var sex = $('#sex').val();
+            var firstname = $('#firstname').val();
+            var lastname = $('#lastname').val();
+            var customer_id = $('#customer_id').val();
+
+            // var password = $('#password').val();
+            // var confirm_password = $('#confirm_password').val();
+            // var birthday = $('#birthday').val();
+            // var sex = $('#sex').val();
+
+
+            // var profile_name = $('#profile_name').val();
 
 
             if (phone == "" || email == "" || firstname == "" || lastname ==
-                "" || birthday == "" || sex == "") {
+                "") {
                 toastr.error("Sorry, please complete the information.");
                 return false;
             }
-            if (password != confirm_password) {
-                toastr.error('Please enter the same password.');
-                return false;
-            }
+            //if (password != confirm_password) {
+            //    toastr.error('Please enter the same password.');
+            //    return false;
+            //}
 
             if (phone.length != 10 || !Number(phone) || phone.charAt(0) != '0') {
                 toastr.error('Please enter your phone number correctly.');
@@ -404,18 +411,6 @@
 
             return false;
         }
-        async function CheckIDcard(value) {
-                var id_card_number = value;
-                for (i = 0, sum = 0; i < 12; i++) {
-                    sum += parseFloat(id_card_number.charAt(i)) * (13 - i);
-                    if ((11 - sum % 11) % 10 != parseFloat(id_card_number.charAt(12)));
-                    toastr.error('Please enter your ID card number correctly.');
-                    return false;
-                }
-                if ((11 - sum % 11) % 10 != parseFloat(id_card_number.charAt(12))) {
-                    toastr.error('Please enter your ID card number correctly.');
-                    return false;
-                }
     </script>
     <!--end::Javascript-->
 

@@ -115,6 +115,7 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        
                                         <div class="col-md-9 mb-5">
                                             <div class="card card-flush py-4 mb-3">
                                                 <div class="card-header">
@@ -359,6 +360,7 @@
 
             return false;
         }
+        
     </script>
     <!--end::Javascript-->
 

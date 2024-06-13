@@ -115,6 +115,7 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        
                                         <div class="col-md-9 mb-5">
                                             <div class="card card-flush py-4 mb-3">
                                                 <div class="card-header">
@@ -336,7 +337,7 @@
 
 
             if (phone == "" || email == "" || firstname == "" || lastname ==
-                "" || customer_id == "") {
+                "" ) {
                 toastr.error("Sorry, please complete the information.");
                 return false;
             }
