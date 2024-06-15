@@ -51,13 +51,14 @@ class LogsController extends Controller
         }
     }
 
-    public static function logInsert($error_line,$error_url,$error_log,$type_log){
+    public static function logInsert($error_line, $error_url, $error_log, $type_log)
+    {
         DB::beginTransaction();
         $date = date('Y-m-d');
-        $check = LogsModel::where('date',$date)->first();
-        if($check){
-           $data = $check;
-        }else{
+        $check = LogsModel::where('date', $date)->first();
+        if ($check) {
+            $data = $check;
+        } else {
             $data = new LogsModel();
             $data->date = $date;
             $data->save();
@@ -71,9 +72,7 @@ class LogsController extends Controller
         $lists->line = $error_line;
         $lists->url = $error_url;
         $lists->desc = $error_log;
-        if($lists->save())
-        {
-
+        if ($lists->save()) {
         }
         DB::commit();
     }

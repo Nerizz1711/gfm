@@ -1,19 +1,17 @@
 <?php
 
-// app/Http/Controllers/Auth/LoginController.php
-
 namespace App\Http\Controllers\Auth;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Socialite\Facades\Socialite;
-use App\Models\Backend\CleanerModel;
+use App\Models\Authuse\Cleaner;
 
 class LoginController extends Controller
 {
-    protected $prefix = 'front-end';
-    protected $segment = 'webpanel';
+    protected $prefix = 'cleaner-end';
+    protected $segment = 'cleaner';
     protected $controller = 'line-login';
     protected $folder = 'line-login';
 
@@ -50,29 +48,41 @@ class LoginController extends Controller
         try {
             $lineUser = Socialite::driver('line')->stateless()->user();
         } catch (\Exception $e) {
-            return redirect('/login');
+            return redirect('/cleaner/line-login');
         }
 
-        // $line_id_dd = $lineUser->getId();
-        // dd($line_id_dd);
         // Check if the user already exists
-        $user = CleanerModel::where('line_id', $lineUser->getId())->first();
+        // $user = Cleaner::where('line_id', $lineUser->getId())->first();
+        $user = Cleaner::where('email', $lineUser->getEmail())->first();
+
 
         if ($user) {
-            // Log the user in
-            Auth::login($user, true);
+            // Log the user in using the cleaner guard
+            Auth::guard('cleaner')->login($user, true);
         } else {
             // Create a new user
-            $user = CleanerModel::create([
+            $user = Cleaner::create([
                 'name' => $lineUser->getName(),
                 'email' => $lineUser->getEmail(),
                 'line_id' => $lineUser->getId(),
                 'avatar' => $lineUser->getAvatar(),
             ]);
 
-            Auth::login($user, true);
+            // Log the user in using the cleaner guard
+            Auth::guard('cleaner')->login($user, true);
         }
 
-        return redirect()->intended('/location-check');
+        return redirect()->intended('/cleaner/location-check');
+    }
+
+    /**
+     * Log the user out of the application.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function logout()
+    {
+        Auth::guard('cleaner')->logout();
+        return redirect('/cleaner/line-login');
     }
 }

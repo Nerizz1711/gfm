@@ -23,6 +23,7 @@ class CreateTbCleanerTable extends Migration
             $table->string('name', 100)->nullable();
             $table->string('email', 100)->nullable();
             $table->string('phone', 50)->nullable();
+            $table->string('remember_token', 100)->nullable();
             $table->enum('isActive', ['Y', 'N'])->nullable()->default('Y');
             $table->datetime('created_at')->nullable();
             $table->datetime('updated_at')->nullable();
