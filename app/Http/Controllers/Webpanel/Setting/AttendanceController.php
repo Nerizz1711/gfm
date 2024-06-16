@@ -4,47 +4,92 @@ namespace App\Http\Controllers\Webpanel\Setting;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Backend\AttendanceRecordModel;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
+use Illuminate\Support\Arr;
+
+use App\Models\Backend\CleanerModel;
+use App\Models\Backend\CustomerModel;
+use App\Models\Backend\AttendanceRecordModel;
+
 
 class AttendanceController extends Controller
 {
-    public function checkIn()
+    protected $prefix = 'back-end';
+    protected $segment = 'webpanel';
+    protected $controller = 'attendance';
+    protected $folder = 'attendance';
+    protected $folder_controller = 'setting.attendance';
+    protected $pagename = 'Attendance';
+
+
+    public function items($parameters)
     {
-        $user = Auth::user();
-        $today = Carbon::today()->toDateString();
+        $isActive = Arr::get($parameters, 'status');
+        $keyword = Arr::get($parameters, 'keyword');
+        $paginate = Arr::get($parameters, 'total', 15);
+        $query = AttendanceRecordModel::with(['cleaner.customer']);
 
-        $attendance = AttendanceRecordModel::firstOrCreate(
-            [
-                'user_id' => $user->id,
-                'date' => $today,
-            ],
-            [
-                'check_in_time' => Carbon::now(),
-            ]
-        );
-
-        return response()->json(['message' => 'Check-in time recorded', 'attendance' => $attendance]);
-    }
-
-    public function checkOut()
-    {
-        $user = Auth::user();
-        $today = Carbon::today()->toDateString();
-
-        $attendance = AttendanceRecordModel::where('user_id', $user->id)
-            ->where('date', $today)
-            ->first();
-
-        if ($attendance) {
-            $attendance->update([
-                'check_out_time' => Carbon::now(),
-            ]);
-
-            return response()->json(['message' => 'Check-out time recorded', 'attendance' => $attendance]);
+        if ($isActive) {
+            $query = $query->whereHas('cleaner', function ($q) use ($isActive) {
+                $q->where('isActive', $isActive);
+            });
         }
 
-        return response()->json(['message' => 'No check-in record found for today'], 404);
+        if ($keyword) {
+            $query = $query->whereHas('cleaner', function ($q) use ($keyword) {
+                $q->where('firstname', 'LIKE', '%' . trim($keyword) . '%')
+                    ->orWhere('lastname', 'LIKE', '%' . trim($keyword) . '%');
+            });
+        }
+
+        $query = $query->orderBy('id', 'asc');
+        $results = $query->paginate($paginate);
+
+        return $results;
+    }
+
+    public function index(Request $request)
+    {
+        $items = $this->items($request->all());
+        $items->pages = new \stdClass();
+        $items->pages->start = ($items->perPage() * $items->currentPage()) - $items->perPage();
+
+        $navs = [
+            '0' => ['url' => "$this->segment", 'name' => 'Dashboard', 'last' => 0],
+            '1' => ['url' => "$this->segment/$this->folder", 'name' => "$this->pagename", 'last' => 0],
+        ];
+
+        return view("$this->prefix.pages.$this->folder_controller.index", [
+            'prefix' => $this->prefix,
+            'folder' => $this->folder,
+            'segment' => $this->segment,
+            'pagename' => $this->pagename,
+            'navs' => $navs,
+            'items' => $items,
+        ]);
+    }
+
+    public function show(Request $request, $id)
+    {
+        $navs = [
+            '0' => ['url' => "$this->segment", 'name' => 'Dashboard', 'last' => 0],
+            '1' => ['url' => "$this->segment/$this->folder", 'name' => "$this->pagename", 'last' => 0],
+            '2' => ['url' => "$this->segment/$this->folder/show/$id", 'name' => "Show $this->pagename", 'last' => 1],
+
+        ];
+        $attendance = AttendanceRecordModel::with(['cleaner.customer'])->findOrFail($id);
+        $attendance->image_before = json_decode($attendance->image_before, true);
+        $attendance->image_after = json_decode($attendance->image_after, true);
+
+        return view("$this->prefix.pages.$this->folder_controller.show", [
+            'prefix' => $this->prefix,
+            'folder' => $this->folder,
+            'segment' => $this->segment,
+            'pagename' => $this->pagename,
+            'navs' => $navs,
+            'attendance' => $attendance,
+
+        ]);
     }
 }

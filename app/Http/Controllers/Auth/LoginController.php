@@ -72,7 +72,7 @@ class LoginController extends Controller
             Auth::guard('cleaner')->login($user, true);
         }
 
-        return redirect()->intended('/cleaner/location-check');
+        return redirect()->intended('/cleaner/attendance-check');
     }
 
     /**

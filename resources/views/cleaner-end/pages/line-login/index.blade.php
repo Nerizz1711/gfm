@@ -21,13 +21,13 @@
             <div id="kt_app_header" class="app-header" data-kt-sticky="true"
                 data-kt-sticky-activate="{default: true, lg: true}" data-kt-sticky-name="app-header-minimize"
                 data-kt-sticky-offset="{default: '200px', lg: '0'}" data-kt-sticky-animation="false">
-                @include("$prefix.layout.head-menu")
+                {{-- @include("$prefix.layout.head-menu") --}}
             </div>
             <!--end::Header-->
             <div class="app-wrapper flex-column flex-row-fluid" id="kt_app_wrapper">
 
                 <!--begin::Sidebar-->
-                @include("$prefix.layout.side-menu")
+                {{-- @include("$prefix.layout.side-menu") --}}
                 <!--end::Sidebar-->
 
                 <!--begin::Main-->
@@ -37,7 +37,7 @@
                         <div id="kt_app_toolbar" class="app-toolbar py-3 py-lg-6">
                             <div id="kt_app_toolbar_container" class="app-container container-xxl d-flex flex-stack">
 
-                                @include("$prefix.layout.breadcrumbs")
+                                {{-- @include("$prefix.layout.breadcrumbs") --}}
 
                             </div>
                         </div>
@@ -46,8 +46,10 @@
                             <!--begin::Content container-->
                             <div id="kt_app_content_container" class="app-container container-xxl">
 
-
-                                <a href="{{ route('login.line') }}" class="btn btn-primary">Login with LINE</a>
+                                <h1>เข้าสู่ระบบ </h1>
+                                <br>
+                                <br>
+                                <a href="{{ route('login.line') }}" class="btn btn-success">เข้าสู่ระบบด้วย LINE</a>
 
 
                             </div>

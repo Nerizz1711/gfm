@@ -57,8 +57,6 @@ Route::group(['middleware' => ['Webpanel']], function () {
             Route::get('/edit/{id}', [Webpanel\Setting\CustomerController::class, 'edit'])->where(['id' => '[0-9]+']);
             Route::post('/edit/{id}', [Webpanel\Setting\CustomerController::class, 'update'])->where(['id' => '[0-9]+']);
             Route::get('/destroy/{id}', [Webpanel\Setting\CustomerController::class, 'destroy'])->where(['id' => '[0-9]+']);
-            Route::post('/changeSort', [Webpanel\Setting\CustomerController::class, 'changeSort']);
-            Route::get('/log_point/{id}', [Webpanel\Setting\CustomerController::class, 'log_point'])->where(['id' => '[0-9]+']);
         });
 
         Route::prefix('cleaner')->group(function () {
@@ -68,8 +66,16 @@ Route::group(['middleware' => ['Webpanel']], function () {
             Route::get('/edit/{id}', [Webpanel\Setting\CleanerController::class, 'edit'])->where(['id' => '[0-9]+']);
             Route::post('/edit/{id}', [Webpanel\Setting\CleanerController::class, 'update'])->where(['id' => '[0-9]+']);
             Route::get('/destroy/{id}', [Webpanel\Setting\CleanerController::class, 'destroy'])->where(['id' => '[0-9]+']);
-            Route::post('/changeSort', [Webpanel\Setting\CleanerController::class, 'changeSort']);
-            Route::get('/log_point/{id}', [Webpanel\Setting\CleanerController::class, 'log_point'])->where(['id' => '[0-9]+']);
+        });
+
+        Route::prefix('attendance')->group(function () {
+            Route::get('/', [Webpanel\Setting\AttendanceController::class, 'index']);
+            Route::get('/add', [Webpanel\Setting\AttendanceController::class, 'add']);
+            Route::post('/add', [Webpanel\Setting\AttendanceController::class, 'insert']);
+            Route::get('/edit/{id}', [Webpanel\Setting\AttendanceController::class, 'edit'])->where(['id' => '[0-9]+']);
+            Route::post('/edit/{id}', [Webpanel\Setting\AttendanceController::class, 'update'])->where(['id' => '[0-9]+']);
+            Route::get('/destroy/{id}', [Webpanel\Setting\AttendanceController::class, 'destroy'])->where(['id' => '[0-9]+']);
+            Route::get('/show/{id}', [Webpanel\Setting\AttendanceController::class, 'show'])->where(['id' => '[0-9]+']);
         });
     });
 });

@@ -18,6 +18,11 @@ class AttendanceRecordModel extends Model
         'atten_date',
     ];
 
+    protected $casts = [
+        'image_before' => 'array',
+        'image_after' => 'array',
+    ];
+
     // กำหนดความสัมพันธ์กับโมเดล Cleaner (ถ้ามี)
     public function cleaner()
     {
