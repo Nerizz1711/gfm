@@ -51,9 +51,9 @@ class CleanerModel extends Model
         return $this->belongsTo(CustomerModel::class, 'customer_id', 'id');
     }
 
-    public function attendanceRecords()
+    public function attendances()
     {
-        return $this->hasMany(AttendanceRecordModel::class, 'cleaner_id');
+        return $this->hasMany(AttendanceRecordModel::class, 'cleaner_id', 'id');
     }
     /**
      * The attributes that should be cast to native types.

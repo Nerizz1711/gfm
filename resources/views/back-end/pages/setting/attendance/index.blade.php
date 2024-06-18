@@ -109,7 +109,7 @@
                                                                 <td class="text-center">{{ $item->cleaner->firstname }}
                                                                     {{ $item->cleaner->lastname }}</td>
                                                                 <td class="text-left">
-                                                                    {{ $item->cleaner->customer->email }}</td>
+                                                                    {{ $item->cleaner->customer->comp_name }}</td>
                                                                 <td class="text-left">{{ $item->atten_date }}</td>
                                                                 <td class="text-center">{{ $item->check_in_time }}</td>
                                                                 <td class="text-center">{{ $item->check_out_time }}

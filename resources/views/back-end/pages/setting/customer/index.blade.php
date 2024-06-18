@@ -90,10 +90,11 @@
                                                         <th class="text-center min-w-5px">#</th>
                                                         <th class="text-center min-w-15px">Image</th>
                                                         <th class="text-left min-w-15px">Name</th>
+                                                        <th class="text-left min-w-15px">Company name</th>
                                                         <th class="text-left min-w-10px">Email</th>
                                                         <th class="text-left min-w-10px">Phone</th>
-                                                        <th class="text-center min-w-10px">Created at</th>
-                                                        <th class="text-center min-w-10px">Updated at</th>
+                                                        {{-- <th class="text-center min-w-10px">Created at</th> --}}
+                                                        {{-- <th class="text-center min-w-10px">Updated at</th> --}}
                                                         <th class="text-center min-w-10px">Status</th>
                                                         <th class="text-center min-w-10px">Action</th>
                                                     </tr>
@@ -106,17 +107,20 @@
                                                                     {{ $items->pages->start + $index + 1 }}
                                                                 </td>
                                                                 <td class="text-center">{!! Helper::getImage($item->image) !!}</td>
-                                                                <td class="text-left">{{ @$item->firstname }}
-                                                                    {{ @$item->lastname }}
+                                                                <td class="text-left">
+                                                                    {{ @$item->name }}
+                                                                </td>
+                                                                <td class="text-left">
+                                                                    {{ @$item->comp_name }}
                                                                 </td>
                                                                 <td class="text-left">{{ @$item->email }}</td>
                                                                 <td class="text-left">{{ @$item->phone }}</td>
-                                                                <td class="text-center">
+                                                                {{-- <td class="text-center">
                                                                     <small>{{ date('d/m/Y, H:i', strtotime($item->created_at)) }}</small>
-                                                                </td>
-                                                                <td class="text-center">
+                                                                </td> --}}
+                                                                {{-- <td class="text-center">
                                                                     <small>{{ date('d/m/Y, H:i', strtotime($item->updated_at)) }}</small>
-                                                                </td>
+                                                                </td> --}}
                                                                 <td class="text-center">{!! Helper::new_status($item->isActive) !!}</td>
                                                                 <td class="text-center">
                                                                     {{-- <a href="{{ url("$segment/$folder/log_point/$item->id") }}"><i class="fa fa-coins fa-2x" style="margin-right:5px;"></i></a> --}}

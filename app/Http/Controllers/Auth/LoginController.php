@@ -62,7 +62,7 @@ class LoginController extends Controller
         } else {
             // Create a new user
             $user = Cleaner::create([
-                'name' => $lineUser->getName(),
+                'line_name' => $lineUser->getName(),
                 'email' => $lineUser->getEmail(),
                 'line_id' => $lineUser->getId(),
                 'avatar' => $lineUser->getAvatar(),

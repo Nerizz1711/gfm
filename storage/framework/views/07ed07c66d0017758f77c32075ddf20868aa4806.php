@@ -128,14 +128,14 @@
                                                     <div class="row">
                                                         <div class="col-md-6">
                                                             <label class="required form-label">Name </label>
-                                                            <input type="text" id="firstname" name="firstname"
+                                                            <input type="text" id="name" name="name"
                                                                 class="form-control mb-2" placeholder="Name"
                                                                 value="">
                                                         </div>
                                                         <div class="col-md-6">
-                                                            <label class="required form-label">Lastname </label>
-                                                            <input type="text" id="lastname" name="lastname"
-                                                                class="form-control mb-2" placeholder="Lastname"
+                                                            <label class="required form-label">Company name </label>
+                                                            <input type="text" id="comp_name" name="comp_name"
+                                                                class="form-control mb-2" placeholder="Company name"
                                                                 value="">
                                                         </div>
                                                     </div>
@@ -190,6 +190,12 @@
                                                         </div>
                                                     </div>
 
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <label class="required form-label">Address </label>
+                                                            <textarea id="address" name="address" class="form-control mb-2" placeholder="Address"></textarea>
+                                                        </div>
+                                                    </div>
 
                                                     <div class="row">
                                                         <div class="col-md-6">
@@ -295,10 +301,11 @@
             var check_mail =
                 /^([0-9a-zA-Z]([-_\\.]*[0-9a-zA-Z]+)*)@([0-9a-zA-Z]([-_\\.]*[0-9a-zA-Z]+)*)[\\.]([a-zA-Z]{2,9})$/;
             var phone = $('#phone').val();
-            var firstname = $('#firstname').val();
-            var lastname = $('#lastname').val();
+            var name = $('#name').val();
+            var comp_name = $('#lastname').val();
             var password = $('#password').val();
             var confirm_password = $('#confirm_password').val();
+            var address = $('#address').val();
             var lat = $('#lat').val();
             var long = $('#long').val();
 
@@ -306,8 +313,8 @@
 
 
 
-            if (phone == "" || email == "" || password == "" || confirm_password == "" || firstname == "" || lastname ==
-                "" || lat == "" || long == "") {
+            if (phone == "" || email == "" || password == "" || confirm_password == "" || name == "" || comp_name ==
+                "" || address == "" || lat == "" || long == "") {
                 toastr.error("Sorry, please complete the information.");
                 return false;
             }
@@ -378,7 +385,6 @@
 
             return false;
         }
-        
     </script>
     <!--end::Javascript-->
 

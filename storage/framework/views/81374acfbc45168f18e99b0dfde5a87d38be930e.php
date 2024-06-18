@@ -90,10 +90,11 @@
                                                         <th class="text-center min-w-5px">#</th>
                                                         <th class="text-center min-w-15px">Image</th>
                                                         <th class="text-left min-w-15px">Name</th>
+                                                        <th class="text-left min-w-15px">Company name</th>
                                                         <th class="text-left min-w-10px">Email</th>
                                                         <th class="text-left min-w-10px">Phone</th>
-                                                        <th class="text-center min-w-10px">Created at</th>
-                                                        <th class="text-center min-w-10px">Updated at</th>
+                                                        
+                                                        
                                                         <th class="text-center min-w-10px">Status</th>
                                                         <th class="text-center min-w-10px">Action</th>
                                                     </tr>
@@ -107,19 +108,18 @@
 
                                                                 </td>
                                                                 <td class="text-center"><?php echo Helper::getImage($item->image); ?></td>
-                                                                <td class="text-left"><?php echo e(@$item->firstname); ?>
+                                                                <td class="text-left">
+                                                                    <?php echo e(@$item->name); ?>
 
-                                                                    <?php echo e(@$item->lastname); ?>
+                                                                </td>
+                                                                <td class="text-left">
+                                                                    <?php echo e(@$item->comp_name); ?>
 
                                                                 </td>
                                                                 <td class="text-left"><?php echo e(@$item->email); ?></td>
                                                                 <td class="text-left"><?php echo e(@$item->phone); ?></td>
-                                                                <td class="text-center">
-                                                                    <small><?php echo e(date('d/m/Y, H:i', strtotime($item->created_at))); ?></small>
-                                                                </td>
-                                                                <td class="text-center">
-                                                                    <small><?php echo e(date('d/m/Y, H:i', strtotime($item->updated_at))); ?></small>
-                                                                </td>
+                                                                
+                                                                
                                                                 <td class="text-center"><?php echo Helper::new_status($item->isActive); ?></td>
                                                                 <td class="text-center">
                                                                     

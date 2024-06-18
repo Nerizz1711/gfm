@@ -24,8 +24,13 @@ class AttendanceRecordModel extends Model
     ];
 
     // กำหนดความสัมพันธ์กับโมเดล Cleaner (ถ้ามี)
+    public function customer()
+    {
+        return $this->belongsTo(CustomerModel::class, 'customer_id', 'id');
+    }
+
     public function cleaner()
     {
-        return $this->belongsTo(CleanerModel::class, 'cleaner_id');
+        return $this->belongsTo(CleanerModel::class, 'cleaner_id', 'id');
     }
 }

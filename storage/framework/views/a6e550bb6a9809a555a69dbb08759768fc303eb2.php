@@ -126,15 +126,15 @@
                                                     <div class="row">
                                                         <div class="col-md-6">
                                                             <label class="required form-label">Name </label>
-                                                            <input type="text" id="firstname" name="firstname"
+                                                            <input type="text" id="name" name="name"
                                                                 class="form-control mb-2" placeholder="Name"
-                                                                value="<?php echo e(@$row->firstname); ?>">
+                                                                value="<?php echo e(@$row->name); ?>">
                                                         </div>
                                                         <div class="col-md-6">
-                                                            <label class="required form-label">Lastname </label>
-                                                            <input type="text" id="lastname" name="lastname"
-                                                                class="form-control mb-2" placeholder="Lastname"
-                                                                value="<?php echo e(@$row->lastname); ?>">
+                                                            <label class="required form-label">Company name </label>
+                                                            <input type="text" id="comp_name" name="comp_name"
+                                                                class="form-control mb-2" placeholder="Company name"
+                                                                value="<?php echo e(@$row->comp_name); ?>">
                                                         </div>
                                                     </div>
 
@@ -195,6 +195,14 @@
                                                             </div>
                                                         </div>
                                                     </div>
+
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <label class="required form-label">Address </label>
+                                                            <textarea id="address" name="address" class="form-control mb-2" placeholder="Address"><?php echo e(@$row->address); ?></textarea>
+                                                        </div>
+                                                    </div>
+
 
                                                     <div class="row">
                                                         <div class="col-md-6">
@@ -303,14 +311,14 @@
             var email = $('#email').val();
             var password = $('#password').val();
             var confirm_password = $('#confirm_password').val();
-            var firstname = $('#firstname').val();
-            var lastname = $('#lastname').val();
+            var name = $('#name').val();
+            var comp_name = $('#comp_name').val();
             var check_mail =
                 /^([0-9a-zA-Z]([-_\\.]*[0-9a-zA-Z]+)*)@([0-9a-zA-Z]([-_\\.]*[0-9a-zA-Z]+)*)[\\.]([a-zA-Z]{2,9})$/;
             var phone = $('#phone').val();
 
 
-            if (phone == "" || email == "" || firstname == "" || lastname ==
+            if (phone == "" || email == "" || name == "" || comp_name ==
                 "") {
                 toastr.error("Sorry, please complete the information.");
                 return false;

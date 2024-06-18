@@ -83,15 +83,10 @@ return [
         ],
 
 
-
         'api' => [
-
-            'driver' => 'token',
-
+            'driver' => 'sanctum',
             'provider' => 'users',
-
             'hash' => false,
-
         ],
 
         'admin' => [
@@ -180,14 +175,6 @@ return [
             'model' => App\Models\Authuse\User::class,
 
         ],
-
-        // 'Member' => [
-
-        //     'driver' => 'eloquent',
-
-        //     'model' => App\Models\Authuse\Member::class,
-
-        // ],
 
         'cleaners' => [
 

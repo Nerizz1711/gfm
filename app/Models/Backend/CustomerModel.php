@@ -37,6 +37,16 @@ class CustomerModel extends Model
     {
         return $this->firstname . ' ' . $this->lastname;
     }
+
+    public function cleaners()
+    {
+        return $this->hasMany(CleanerModel::class, 'customer_id', 'id');
+    }
+
+    public function attendances()
+    {
+        return $this->hasMany(AttendanceRecordModel::class, 'customer_id', 'id');
+    }
     /**
      * The attributes that should be cast to native types.
      *

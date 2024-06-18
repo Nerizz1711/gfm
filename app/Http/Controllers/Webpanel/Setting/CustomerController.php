@@ -153,10 +153,11 @@ class CustomerController extends Controller
             }
             // $data->role = $request->role;
             $data->isActive = $request->isActive;
-            $data->firstname = $request->firstname;
-            $data->lastname = $request->lastname;
+            $data->name = $request->name;
+            $data->comp_name = $request->comp_name;
             $data->email = $request->email;
             $data->phone = $request->phone;
+            $data->address = $request->address;
             $data->lat = $request->lat;
             $data->long = $request->long;
 
