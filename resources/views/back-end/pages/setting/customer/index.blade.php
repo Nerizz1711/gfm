@@ -115,15 +115,12 @@
                                                                 </td>
                                                                 <td class="text-left">{{ @$item->email }}</td>
                                                                 <td class="text-left">{{ @$item->phone }}</td>
-                                                                {{-- <td class="text-center">
-                                                                    <small>{{ date('d/m/Y, H:i', strtotime($item->created_at)) }}</small>
-                                                                </td> --}}
-                                                                {{-- <td class="text-center">
-                                                                    <small>{{ date('d/m/Y, H:i', strtotime($item->updated_at)) }}</small>
-                                                                </td> --}}
                                                                 <td class="text-center">{!! Helper::new_status($item->isActive) !!}</td>
                                                                 <td class="text-center">
-                                                                    {{-- <a href="{{ url("$segment/$folder/log_point/$item->id") }}"><i class="fa fa-coins fa-2x" style="margin-right:5px;"></i></a> --}}
+                                                                    <a
+                                                                        href="{{ url("$segment/$folder/attendance/$item->id") }}"><i
+                                                                            class="fa fa-search fa-2x"
+                                                                            style="margin-right:5px;"></i></a>
                                                                     <a
                                                                         href="{{ url("$segment/$folder/edit/$item->id") }}"><i
                                                                             class="fa fa-edit fa-2x"

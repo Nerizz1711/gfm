@@ -38,6 +38,45 @@ class LocationController extends Controller
     }
 
     // public function checkLocation(Request $request)
+    // public function checkIn(Request $request)
+    // {
+    //     $latitude = $request->input('latitude');
+    //     $longitude = $request->input('longitude');
+
+    //     $cleanerId = Auth::guard('cleaner')->user()->id;
+    //     $cleaner = CleanerModel::find($cleanerId);
+
+    //     // พื้นที่ที่กำหนดไว้
+    //     if ($cleaner && $cleaner->customer) {
+    //         $designatedLatitude = $cleaner->customer->lat;
+    //         $designatedLongitude = $cleaner->customer->long;
+
+    //         // ตรวจสอบระยะห่าง
+    //         $distance = $this->haversineGreatCircleDistance($latitude, $longitude, $designatedLatitude, $designatedLongitude);
+
+    //         // ระยะห่างในกิโลเมตร
+    //         $radius = 1; // กำหนดรัศมี 1 กม.
+
+    //         if ($distance <= $radius) {
+
+    //             $today = Carbon::today()->toDateString();
+    //             $attendance = AttendanceRecordModel::firstOrCreate(
+    //                 [
+    //                     'cleaner_id' => $cleaner->id,
+    //                     'atten_date' => $today,
+    //                 ],
+    //                 [
+    //                     'check_in_time' => Carbon::now(),
+    //                 ]
+    //             );
+
+    //             return response()->json(['status' => 'inside']);
+    //         } else {
+    //             return response()->json(['status' => 'outside']);
+    //         }
+    //     }
+    // }
+
     public function checkIn(Request $request)
     {
         $latitude = $request->input('latitude');
@@ -46,8 +85,8 @@ class LocationController extends Controller
         $cleanerId = Auth::guard('cleaner')->user()->id;
         $cleaner = CleanerModel::find($cleanerId);
 
-        // พื้นที่ที่กำหนดไว้
         if ($cleaner && $cleaner->customer) {
+            // พื้นที่ที่กำหนดไว้
             $designatedLatitude = $cleaner->customer->lat;
             $designatedLongitude = $cleaner->customer->long;
 
@@ -58,7 +97,6 @@ class LocationController extends Controller
             $radius = 1; // กำหนดรัศมี 1 กม.
 
             if ($distance <= $radius) {
-
                 $today = Carbon::today()->toDateString();
                 $attendance = AttendanceRecordModel::firstOrCreate(
                     [
@@ -67,6 +105,8 @@ class LocationController extends Controller
                     ],
                     [
                         'check_in_time' => Carbon::now(),
+                        'customer_id' => $cleaner->customer->id,
+                        'noti_status' => "unread",
                     ]
                 );
 
@@ -75,6 +115,8 @@ class LocationController extends Controller
                 return response()->json(['status' => 'outside']);
             }
         }
+
+        return response()->json(['status' => 'error', 'message' => 'Cleaner or customer not found']);
     }
 
 
@@ -107,6 +149,7 @@ class LocationController extends Controller
                 if ($attendance) {
                     $attendance->update([
                         'check_out_time' => Carbon::now(),
+                        'noti_status' => "unread",
                     ]);
                     return response()->json(['status' => 'inside']);
                 }
@@ -158,6 +201,7 @@ class LocationController extends Controller
                 $imagePaths[] = $path;
             }
             $record->image_before = json_encode($imagePaths); // Store as JSON array
+            $record->noti_status = "unread";
             $record->save();
         }
 
@@ -190,6 +234,7 @@ class LocationController extends Controller
                 $imagePaths[] = $path;
             }
             $record->image_after = json_encode($imagePaths); // Store as JSON array
+            $record->noti_status = "unread";
             $record->save();
         }
 

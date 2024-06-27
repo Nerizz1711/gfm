@@ -30,7 +30,12 @@ Route::prefix('v1')->group(function () {
 
 
     Route::get('/getAttendanceRecords/{id}', [Api\Frontend\AttendanceController::class, 'getAttendanceRecords'])->where(['id' => '[0-9]+']);
-    Route::get('/getAttendanceFromCustomer/{id}', [Api\Frontend\AttendanceController::class, 'getAttendanceFromCustomer'])->where(['id' => '[0-9]+']);
+    Route::get('/getAttendanceFromCleaner/{id}', [Api\Frontend\AttendanceController::class, 'getAttendanceFromCleaner'])->where(['id' => '[0-9]+']);
+
+    Route::get('/notificationOfCustomer/{id}', [Api\Frontend\AttendanceController::class, 'notiToCustomer'])->where(['id' => '[0-9]+']);
+
+    Route::put('/attendance-records/{id}/noti-status', [Api\Frontend\AttendanceController::class, 'updateNotiStatus'])->where(['id' => '[0-9]+']);
+
     // Route::group(['middleware' => ['auth:sanctum', 'abilities:User']], function () {
     //     Route::get('/findPeermissionVideo/{id}', [Api\PeermissionController::class, 'findVideo'])->where(['id' => '[0-9]+']);
 

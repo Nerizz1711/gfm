@@ -35,10 +35,16 @@ class CleanerController extends Controller
     {
         try {
             // Data
-            $data = CleanerModel::where(["id" => $id, 'isActive' => 'Y'])
+            $data = CleanerModel::with(['customer', 'shift'])
+                ->where(["id" => $id, 'isActive' => 'Y'])
                 ->first();
 
-            
+            if (!$data) {
+                return response()->json([
+                    'message' => 'Cleaner not found or inactive',
+                ], 404);
+            }
+
             return response()->json([
                 'message' => 'success',
                 'data' => $data,
@@ -46,35 +52,38 @@ class CleanerController extends Controller
         } catch (\Exception $e) {
             return response()->json([
                 'message' => 'Error',
+                'error' => $e->getMessage(),
             ], 400);
         }
     }
 
-    public function findCleanerInCustomer(Request $request, $id = null)
+    public function findCleanerInCustomer(Request$request, $id = null)
     {
         try {
+            // Extract customer_id from the request
+            $customerId = $id;
+
             // Data
-            // $data = CleanerModel::where(["id" => $id, 'isActive' => 'Y'])
-            //     ->first();
+            $data = CleanerModel::with(['customer', 'shift'])
+                ->where(['customer_id' => $customerId, 'isActive' => 'Y'])
+                ->get();
 
-            $customer = CustomerModel::find($id);
-
-            if (!$customer) {
+            if (!$data) {
                 return response()->json([
-                    'message' => 'Customer not found',
+                    'message' => 'Cleaner not found or inactive',
                 ], 404);
             }
 
-            // Get cleaners of the customer that are active
-            $cleaners = $customer->cleaners;
             return response()->json([
                 'message' => 'success',
-                'data' => $cleaners,
+                'data' => $data,
             ], 200);
         } catch (\Exception $e) {
             return response()->json([
                 'message' => 'Error',
+                'error' => $e->getMessage(),
             ], 400);
         }
     }
+
 }

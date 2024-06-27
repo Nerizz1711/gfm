@@ -5,13 +5,18 @@ namespace App\Http\Controllers\Webpanel\Setting;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Functions\FunctionControl;
 use App\Http\Controllers\Webpanel\LogsController;
-use App\Models\Backend\CleanerModel;
-use App\Models\Backend\CustomerModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\ImageManagerStatic as Image;
+
+
+use App\Models\Backend\CleanerModel;
+use App\Models\Backend\CustomerModel;
+use App\Models\Backend\ShiftModel;
+use App\Models\Backend\AttendanceRecordModel;
+
 
 class CleanerController extends Controller
 {
@@ -43,6 +48,20 @@ class CleanerController extends Controller
         return $results;
     }
 
+    public function attendanceItems($parameters)
+    {
+        $cleaner_id = Arr::get($parameters, 'cleaner_id');
+        $paginate = Arr::get($parameters, 'total', 15);
+
+        $query = AttendanceRecordModel::where('cleaner_id', $cleaner_id)
+            ->with(['cleaner.customer'])
+            ->orderBy('atten_date', 'desc');
+
+        $results = $query->paginate($paginate);
+
+        return $results;
+    }
+
     public function index(Request $request)
     {
         $items = $this->items($request->all());
@@ -55,6 +74,29 @@ class CleanerController extends Controller
         ];
 
         return view("$this->prefix.pages.$this->folder_controller.index", [
+            'prefix' => $this->prefix,
+            'folder' => $this->folder,
+            'segment' => $this->segment,
+            'pagename' => $this->pagename,
+            'navs' => $navs,
+            'items' => $items,
+        ]);
+    }
+
+    public function atten(Request $request, $id)
+    {
+        $items = $this->attendanceItems(['cleaner_id' => $id]);
+        $items->pages = new \stdClass();
+        $items->pages->start = ($items->perPage() * $items->currentPage()) - $items->perPage();
+
+
+        $navs = [
+            '0' => ['url' => "$this->segment", 'name' => 'Dashboard', 'last' => 0],
+            '1' => ['url' => "$this->segment/$this->folder", 'name' => "$this->pagename", 'last' => 0],
+            '2' => ['url' => "$this->segment/$this->folder/attendance/$id", 'name' => "Attendance $this->pagename", 'last' => 1],
+        ];
+
+        return view("$this->prefix.pages.$this->folder_controller.atten", [
             'prefix' => $this->prefix,
             'folder' => $this->folder,
             'segment' => $this->segment,
@@ -84,12 +126,16 @@ class CleanerController extends Controller
 
     public function edit(Request $request, $id)
     {
-        
+
         $navs = [
             '0' => ['url' => "$this->segment", 'name' => 'Dashboard', 'last' => 0],
             '1' => ['url' => "$this->segment/$this->folder", 'name' => "$this->pagename", 'last' => 0],
             '2' => ['url' => "$this->segment/$this->folder/edit/$id", 'name' => "Edit $this->pagename", 'last' => 1],
         ];
+
+        $cleaner = CleanerModel::findOrFail($id); // ดึงข้อมูล cleaner ที่ต้องการแก้ไข
+        $customers = CustomerModel::where('isActive', 'Y')->get(); // ดึงข้อมูล customer ทั้งหมด
+        $shifts = ShiftModel::where('customer_id', $cleaner->customer_id)->get(); // ดึงข้อมูล shifts ของ customer ที่กำลังแก้ไข
 
         return view("$this->prefix.pages.$this->folder_controller.edit", [
             'prefix' => $this->prefix,
@@ -97,8 +143,8 @@ class CleanerController extends Controller
             'segment' => $this->segment,
             'navs' => $navs,
             'row' => CleanerModel::find($id),
-            'customer' => CustomerModel::where('isActive', 'Y')->get(),
-
+            'customer' => $customers,
+            'shifts' => $shifts, // ส่งข้อมูล shifts ไปที่ view
         ]);
     }
 
@@ -163,6 +209,8 @@ class CleanerController extends Controller
             $data->email = $request->email;
             $data->phone = $request->phone;
             $data->customer_id = $request->customer_id;
+            $data->shift_id = $request->shift_id;
+
 
             // $data->idcard = $request->idcard;
             // $data->sex = $request->sex;
@@ -232,5 +280,35 @@ class CleanerController extends Controller
         }
 
         return $duplicates;
+    }
+
+    public function show(Request $request, $id)
+    {
+        $navs = [
+            '0' => ['url' => "$this->segment", 'name' => 'Dashboard', 'last' => 0],
+            '1' => ['url' => "$this->segment/$this->folder", 'name' => "$this->pagename", 'last' => 0],
+            '2' => ['url' => "$this->segment/$this->folder/show/$id", 'name' => "Show $this->pagename", 'last' => 1],
+
+        ];
+        $attendance = AttendanceRecordModel::with(['cleaner.customer'])->findOrFail($id);
+
+        // Decode JSON strings to arrays
+        if ($attendance->image_before) {
+            $attendance->image_before = json_decode($attendance->image_before, true);
+        }
+
+        if ($attendance->image_after) {
+            $attendance->image_after = json_decode($attendance->image_after, true);
+        }
+
+        return view("$this->prefix.pages.$this->folder_controller.show", [
+            'prefix' => $this->prefix,
+            'folder' => $this->folder,
+            'segment' => $this->segment,
+            'pagename' => $this->pagename,
+            'navs' => $navs,
+            'attendance' => $attendance,
+
+        ]);
     }
 }

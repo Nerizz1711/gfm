@@ -3,7 +3,7 @@
 <!--begin::Head-->
 
 <head>
-    @include("$prefix.layout.head")
+    <?php echo $__env->make("$prefix.layout.head", \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 </head>
 <!--end::Head-->
 
@@ -21,13 +21,13 @@
             <div id="kt_app_header" class="app-header" data-kt-sticky="true"
                  data-kt-sticky-activate="{default: true, lg: true}" data-kt-sticky-name="app-header-minimize"
                  data-kt-sticky-offset="{default: '200px', lg: '0'}" data-kt-sticky-animation="false">
-                @include("$prefix.layout.head-menu")
+                <?php echo $__env->make("$prefix.layout.head-menu", \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
             </div>
             <!--end::Header-->
             <div class="app-wrapper flex-column flex-row-fluid" id="kt_app_wrapper">
 
                 <!--begin::Sidebar-->
-                @include("$prefix.layout.side-menu")
+                <?php echo $__env->make("$prefix.layout.side-menu", \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
                 <!--end::Sidebar-->
 
                 <!--begin::Main-->
@@ -36,7 +36,7 @@
                     <div class="d-flex flex-column flex-column-fluid">
                         <div id="kt_app_toolbar" class="app-toolbar py-3 py-lg-6">
                             <div id="kt_app_toolbar_container" class="app-container d-flex flex-stack">
-                                @include("$prefix.layout.breadcrumbs")
+                                <?php echo $__env->make("$prefix.layout.breadcrumbs", \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
                             </div>
                         </div>
 
@@ -45,43 +45,41 @@
                             <div id="kt_app_content_container" class="app-container">
                                 <div class="card card-flush">
                                     <div class="card-header align-items-center py-5 gap-2 gap-md-5">
-                                        {{-- <div class="card-toolbar flex-row-fluid justify-content-end gap-5">
-
-                                            <a href="{{ url("$segment/$folder/add") }}" class="btn btn-primary">Add</a>
-                                        </div> --}}
+                                        
                                     </div>
                                     <div class="card-body pt-0">
                                         <h2>รายละเอียด</h2>
                                         <div class="container mt-5">
-                                            <h5 class="card-title">ชื่อ นามสกุล: {{ $attendance->cleaner->firstname }}
-                                                {{ $attendance->cleaner->lastname }}</h5>
+                                            <h5 class="card-title">ชื่อ นามสกุล: <?php echo e($attendance->cleaner->firstname); ?>
+
+                                                <?php echo e($attendance->cleaner->lastname); ?></h5>
                                             <p class="card-text">Email ลูกค้า:
-                                                {{ $attendance->cleaner->customer->email }}</p>
-                                            <p class="card-text">วันที่: {{ $attendance->atten_date }}</p>
-                                            <p class="card-text">เวลาเข้างาน: {{ $attendance->check_in_time }}</p>
-                                            <p class="card-text">เวลาออกงาน: {{ $attendance->check_out_time }}</p>
+                                                <?php echo e($attendance->cleaner->customer->email); ?></p>
+                                            <p class="card-text">วันที่: <?php echo e($attendance->atten_date); ?></p>
+                                            <p class="card-text">เวลาเข้างาน: <?php echo e($attendance->check_in_time); ?></p>
+                                            <p class="card-text">เวลาออกงาน: <?php echo e($attendance->check_out_time); ?></p>
 
                                             <h5>รูปภาพก่อนทำงาน:</h5>
-                                            @if ($attendance->image_before && is_array($attendance->image_before))
-                                                @foreach ($attendance->image_before as $image)
-                                                    <img src="{{ asset($image) }}" alt="Image Before"
-                                                         class="img-fluid mb-3" style="max-width: 100px;">
-                                                @endforeach
-                                            @else
+                                            <?php if($attendance->image_before && is_array($attendance->image_before)): ?>
+                                                <?php $__currentLoopData = $attendance->image_before; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $image): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                    <img src="<?php echo e(asset($image)); ?>" alt="Image Before"
+                                                         class="img-fluid mb-3">
+                                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                            <?php else: ?>
                                                 <p>ไม่มีรูปภาพก่อนทำงาน</p>
-                                            @endif
+                                            <?php endif; ?>
 
                                             <h5>รูปภาพหลังทำงาน:</h5>
-                                            @if ($attendance->image_after && is_array($attendance->image_after))
-                                                @foreach ($attendance->image_after as $image)
-                                                    <img src="{{ asset($image) }}" alt="Image After"
-                                                         class="img-fluid mb-3" style="max-width: 100px;">
-                                                @endforeach
-                                            @else
+                                            <?php if($attendance->image_after && is_array($attendance->image_after)): ?>
+                                                <?php $__currentLoopData = $attendance->image_after; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $image): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                    <img src="<?php echo e(asset($image)); ?>" alt="Image After"
+                                                         class="img-fluid mb-3">
+                                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                            <?php else: ?>
                                                 <p>ไม่มีรูปภาพหลังทำงาน</p>
-                                            @endif
+                                            <?php endif; ?>
                                         </div>
-                                        <a href="{{ url()->previous() }}" class="btn btn-secondary mt-3">กลับ</a>
+                                        <a href="<?php echo e(url()->previous()); ?>" class="btn btn-secondary mt-3">กลับ</a>
                                     </div>
 
                                 </div>
@@ -97,7 +95,7 @@
 
             <!--begin::Footer-->
             <div id="kt_app_footer" class="app-footer">
-                @include("$prefix.layout.footer")
+                <?php echo $__env->make("$prefix.layout.footer", \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
             </div>
             <!--End::Footer-->
         </div>
@@ -114,7 +112,7 @@
     </div>
 
     <!--begin::Javascript-->
-    @include("$prefix.layout.script")
+    <?php echo $__env->make("$prefix.layout.script", \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
     <script>
         var fullUrl = window.location.origin + window.location.pathname;
 
@@ -122,9 +120,9 @@
             var sort = $('#sort_' + id).val();
             $.ajax({
                 type: 'POST',
-                url: fullUrl + "{{ '/changeSort' }}",
+                url: fullUrl + "<?php echo e('/changeSort'); ?>",
                 data: {
-                    "_token": "{{ csrf_token() }}",
+                    "_token": "<?php echo e(csrf_token()); ?>",
                     id: id,
                     sort: sort
                 },
@@ -168,3 +166,4 @@
 <!--end::Body-->
 
 </html>
+<?php /**PATH C:\laragon\www\gfm\resources\views/back-end/pages/setting/cleaner/show.blade.php ENDPATH**/ ?>

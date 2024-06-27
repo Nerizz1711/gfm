@@ -17,16 +17,20 @@ use App\Models\Backend\AttendanceRecordModel;
 class AttendanceController extends Controller
 {
 
-    public function getAttendanceFromCustomer(Request $request, $id = null)
+    public function getAttendanceFromCleaner(Request $request, $id = null)
     {
         try {
-            // หา customer โดยใช้ ID
-            $customer = CustomerModel::findOrFail($id);
-
-            // ดึงข้อมูล attendance records ที่เกี่ยวข้องกับ customer นี้
-            $attendanceRecords = AttendanceRecordModel::whereHas('cleaner', function ($query) use ($id) {
-                $query->where('customer_id', $id);
-            })
+            // Validate the request
+            $request->validate([
+                'date' => 'required|date',
+            ]);
+            // Retrieve the date from the request
+            $date = $request->input('date');
+            // Find cleaner by ID
+            $cleaner = CleanerModel::findOrFail($id);
+            // Fetch attendance records where cleaner_id matches the provided id and atten_date matches the provided date
+            $attendanceRecords = AttendanceRecordModel::where('cleaner_id', $id)
+                ->whereDate('atten_date', $date)
                 ->with(['cleaner', 'cleaner.customer'])
                 ->get();
 
@@ -73,14 +77,13 @@ class AttendanceController extends Controller
         }
     }
 
-    public function findAttendanceCustomer(Request $request, $id = null)
+    public function notiToCustomer(Request $request, $id = null)
     {
         try {
-            // Data
-            // $data = CleanerModel::where(["id" => $id, 'isActive' => 'Y'])
-            //     ->first();
-
-            $data = AttendanceRecordModel::with(['cleaner.customer'])->findOrFail($id);
+            // ค้นหา attendance records ที่มี cleaner ซึ่ง customer_id ตรงกับ $id
+            $data = AttendanceRecordModel::whereHas('cleaner', function ($query) use ($id) {
+                $query->where('customer_id', $id);
+            })->with('cleaner.customer')->get();
 
             return response()->json([
                 'message' => 'success',
@@ -89,7 +92,36 @@ class AttendanceController extends Controller
         } catch (\Exception $e) {
             return response()->json([
                 'message' => 'Error',
+                'error' => $e->getMessage(),
             ], 400);
         }
     }
+
+    public function updateNotiStatus(Request $request, $id)
+    {
+        try {
+            // รับค่า noti_status จาก request
+            $notiStatus = $request->input('noti_status');
+
+            // ค้นหา record ตาม id ที่ได้รับ
+            $attendanceRecord = AttendanceRecordModel::findOrFail($id);
+
+            // อัพเดทค่า noti_status
+            $attendanceRecord->noti_status = $notiStatus;
+            $attendanceRecord->save();
+
+            return response()->json([
+                'message' => 'success',
+                'data' => $attendanceRecord,
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Error',
+                'error' => $e->getMessage(),
+            ], 400);
+        }
+    }
+
+
+    
 }

@@ -212,6 +212,17 @@
                                                         </div>
                                                     </div>
 
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <label class="form-label">Shifts</label>
+                                                            <div id="shifts_container">
+                                                            </div>
+                                                            <button type="button" id="add_shift"
+                                                                class="btn btn-primary mt-2">Add
+                                                                Shift</button>
+                                                        </div>
+                                                    </div>
+
 
                                                 </div>
                                             </div>
@@ -292,7 +303,27 @@
             }
         }
 
+        // JavaScript to handle adding new shifts
+        document.getElementById('add_shift').addEventListener('click', function() {
+            var shiftRow = document.createElement('div');
+            shiftRow.classList.add('shift-row');
+            shiftRow.innerHTML = `
+                <input type="text" name="shift_name[]" class="form-control mb-2" placeholder="Shift name" value="">
+                <input type="time" name="start_time[]" class="form-control mb-2" placeholder="Start time" value="">
+                <input type="time" name="end_time[]" class="form-control mb-2" placeholder="End time" value="">
+                <button type="button" class="btn btn-danger btn-sm delete-shift">Delete</button>
+                <hr>
+            `;
+            document.getElementById('shifts_container').appendChild(shiftRow);
 
+            // Attach event listener to the delete button
+            var deleteButtons = document.getElementsByClassName('delete-shift');
+            for (var i = 0; i < deleteButtons.length; i++) {
+                deleteButtons[i].addEventListener('click', function() {
+                    this.parentNode.remove(); // Remove the shift row when delete button is clicked
+                });
+            }
+        });
 
         function check_add() {
             var formData = new FormData($("#form_submit")[0]);
@@ -302,7 +333,7 @@
                 /^([0-9a-zA-Z]([-_\\.]*[0-9a-zA-Z]+)*)@([0-9a-zA-Z]([-_\\.]*[0-9a-zA-Z]+)*)[\\.]([a-zA-Z]{2,9})$/;
             var phone = $('#phone').val();
             var name = $('#name').val();
-            var comp_name = $('#lastname').val();
+            var comp_name = $('#comp_name').val();
             var password = $('#password').val();
             var confirm_password = $('#confirm_password').val();
             var address = $('#address').val();

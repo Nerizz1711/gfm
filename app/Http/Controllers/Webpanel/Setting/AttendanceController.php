@@ -80,12 +80,15 @@ class AttendanceController extends Controller
         ];
         $attendance = AttendanceRecordModel::with(['cleaner.customer'])->findOrFail($id);
 
-        // $image_before = $attendance->image_before;
-        // $image_after = $attendance->image_after;
+        // Decode JSON strings to arrays
+        if ($attendance->image_before) {
+            $attendance->image_before = json_decode($attendance->image_before, true);
+        }
 
-        // $attendance->image_before = json_decode($image_before, true);
-        // $attendance->image_after = json_decode($image_after, true);
-
+        if ($attendance->image_after) {
+            $attendance->image_after = json_decode($attendance->image_after, true);
+        }
+        
         return view("$this->prefix.pages.$this->folder_controller.show", [
             'prefix' => $this->prefix,
             'folder' => $this->folder,

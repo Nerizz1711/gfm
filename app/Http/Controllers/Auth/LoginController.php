@@ -38,48 +38,49 @@ class LoginController extends Controller
         return Socialite::driver('line')->redirect();
     }
 
-    /**
-     * Obtain the user information from LINE.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function handleProviderCallback()
     {
-        try {
-            $lineUser = Socialite::driver('line')->stateless()->user();
-        } catch (\Exception $e) {
-            return redirect('/cleaner/line-login');
-        }
-
-        // Check if the user already exists
-        // $user = Cleaner::where('line_id', $lineUser->getId())->first();
-        $user = Cleaner::where('email', $lineUser->getEmail())->first();
-
-
-        if ($user) {
-            // Log the user in using the cleaner guard
-            Auth::guard('cleaner')->login($user, true);
-        } else {
-            // Create a new user
-            $user = Cleaner::create([
-                'line_name' => $lineUser->getName(),
-                'email' => $lineUser->getEmail(),
-                'line_id' => $lineUser->getId(),
-                'avatar' => $lineUser->getAvatar(),
-            ]);
-
-            // Log the user in using the cleaner guard
-            Auth::guard('cleaner')->login($user, true);
-        }
-
-        return redirect()->intended('/cleaner/attendance-check');
+        $navs = [
+            '0' => ['url' => "javascript:void(0)", 'name' => "Phone number check", "last" => 0],
+        ];
+        $lineUser = Socialite::driver('line')->stateless()->user();
+        return view("$this->prefix.pages.$this->folder.phone_verify", [
+            'prefix' => $this->prefix,
+            'folder' => $this->folder,
+            'segment' => $this->segment,
+            'navs' => $navs,
+            'lineUser' => $lineUser,
+        ]);
     }
 
-    /**
-     * Log the user out of the application.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    public function verifyPhoneNumber(Request $request)
+    {
+        $request->validate([
+            'phone' => 'required|string',
+            'line_id' => 'required|string',
+        ]);
+
+        $user = Cleaner::where('phone', $request->phone)->first();
+
+        if ($user) {
+            if (empty($user->line_id)) {
+                // Update the user's line_id if it's empty
+                $user->line_id = $request->line_id;
+                $user->save();
+                Auth::guard('cleaner')->login($user, true);
+                return redirect()->route('cleaner.attendance-check');
+            } elseif ($user->line_id === $request->line_id) {
+                // Log the user in if the line_id matches
+                Auth::guard('cleaner')->login($user, true);
+                return redirect()->route('cleaner.attendance-check');
+            } else {
+                return redirect()->route('login.line')->with('error', 'Line ID ไม่ตรงกับเบอร์');
+            }
+        } else {
+            return redirect()->route('login.line')->with('error', 'ไม่มีเบอร์โทรศัพท์นี้ในระบบ');
+        }
+    }
+
     public function logout()
     {
         Auth::guard('cleaner')->logout();

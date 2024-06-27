@@ -685,6 +685,7 @@ class ComposerStaticInit27e178af183dc1f5baa7f34deb72a92a
         'App\\Models\\Backend\\ProvinceModel' => __DIR__ . '/../..' . '/app/Models/Backend/ProvinceModel.php',
         'App\\Models\\Backend\\RoleModel' => __DIR__ . '/../..' . '/app/Models/Backend/RoleModel.php',
         'App\\Models\\Backend\\Role_listModel' => __DIR__ . '/../..' . '/app/Models/Backend/Role_listModel.php',
+        'App\\Models\\Backend\\ShiftModel' => __DIR__ . '/../..' . '/app/Models/Backend/ShiftModel.php',
         'App\\Models\\Backend\\TambonModel' => __DIR__ . '/../..' . '/app/Models/Backend/TambonModel.php',
         'App\\Models\\Backend\\Test_formModel' => __DIR__ . '/../..' . '/app/Models/Backend/Test_formModel.php',
         'App\\Models\\Backend\\TestformModel' => __DIR__ . '/../..' . '/app/Models/Backend/TestformModel.php',

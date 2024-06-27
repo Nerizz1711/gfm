@@ -5,12 +5,17 @@ namespace App\Http\Controllers\Webpanel\Setting;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Functions\FunctionControl;
 use App\Http\Controllers\Webpanel\LogsController;
-use App\Models\Backend\CustomerModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\ImageManagerStatic as Image;
+
+use App\Models\Backend\CustomerModel;
+use App\Models\Backend\ShiftModel;
+use App\Models\Backend\AttendanceRecordModel;
+
+
 
 class CustomerController extends Controller
 {
@@ -42,6 +47,23 @@ class CustomerController extends Controller
         return $results;
     }
 
+    public function attendanceItems($parameters)
+    {
+        $customer_id = Arr::get($parameters, 'customer_id');
+        $paginate = Arr::get($parameters, 'total', 15);
+
+        $query = AttendanceRecordModel::whereHas('cleaner', function ($q) use ($customer_id) {
+            $q->where('customer_id', $customer_id);
+        })
+            ->with(['cleaner.customer'])
+            ->orderBy('atten_date', 'desc');
+
+        $results = $query->paginate($paginate);
+
+        return $results;
+    }
+
+
     public function index(Request $request)
     {
         $items = $this->items($request->all());
@@ -54,6 +76,29 @@ class CustomerController extends Controller
         ];
 
         return view("$this->prefix.pages.$this->folder_controller.index", [
+            'prefix' => $this->prefix,
+            'folder' => $this->folder,
+            'segment' => $this->segment,
+            'pagename' => $this->pagename,
+            'navs' => $navs,
+            'items' => $items,
+        ]);
+    }
+
+    public function atten(Request $request, $id)
+    {
+        $items = $this->attendanceItems(['customer_id' => $id]);
+        $items->pages = new \stdClass();
+        $items->pages->start = ($items->perPage() * $items->currentPage()) - $items->perPage();
+
+
+        $navs = [
+            '0' => ['url' => "$this->segment", 'name' => 'Dashboard', 'last' => 0],
+            '1' => ['url' => "$this->segment/$this->folder", 'name' => "$this->pagename", 'last' => 0],
+            '2' => ['url' => "$this->segment/$this->folder/attendance/$id", 'name' => "Attendance $this->pagename", 'last' => 1],
+        ];
+
+        return view("$this->prefix.pages.$this->folder_controller.atten", [
             'prefix' => $this->prefix,
             'folder' => $this->folder,
             'segment' => $this->segment,
@@ -94,6 +139,7 @@ class CustomerController extends Controller
             'segment' => $this->segment,
             'navs' => $navs,
             'row' => CustomerModel::find($id),
+            'shifts' => ShiftModel::where('customer_id', $id)->get(),
         ]);
     }
 
@@ -171,8 +217,31 @@ class CustomerController extends Controller
                 $data->image = $image['image'];
             }
 
+
+
+            // Save Shifts data
+
+
             if ($data->save()) {
                 DB::commit();
+
+                $shifts = [];
+                if ($request->has('shift_name') && $request->has('start_time') && $request->has('end_time')) {
+                    $shiftNames = $request->input('shift_name');
+                    $startTimes = $request->input('start_time');
+                    $endTimes = $request->input('end_time');
+
+                    foreach ($shiftNames as $key => $name) {
+                        $shift = new ShiftModel();
+                        $shift->customer_id = $data->id; // Assuming you have customer_id column in Shift model
+                        $shift->name = $name;
+                        $shift->start_time = $startTimes[$key];
+                        $shift->end_time = $endTimes[$key];
+                        $shift->save();
+                        $shifts[] = $shift; // Optional: collect shifts for response or further processing
+                    }
+                }
+
                 $arr['status'] = 200;
                 $arr['message'] = 'Successfully.';
                 $arr['desc'] = '';
@@ -227,5 +296,48 @@ class CustomerController extends Controller
         }
 
         return $duplicates;
+    }
+
+    public function getShiftsByCustomer(Request $request)
+    {
+        $customerId = $request->input('customer_id');
+        $shifts = ShiftModel::where('customer_id', $customerId)->get();
+        return response()->json($shifts);
+    }
+
+    public function getShifts($customer_id)
+    {
+        $shifts = DB::table('tb_shifts')->where('customer_id', $customer_id)->get();
+        return response()->json(['shifts' => $shifts]);
+    }
+
+    public function show(Request $request, $id)
+    {
+        $navs = [
+            '0' => ['url' => "$this->segment", 'name' => 'Dashboard', 'last' => 0],
+            '1' => ['url' => "$this->segment/$this->folder", 'name' => "$this->pagename", 'last' => 0],
+            '2' => ['url' => "$this->segment/$this->folder/show/$id", 'name' => "Show $this->pagename", 'last' => 1],
+
+        ];
+        $attendance = AttendanceRecordModel::with(['cleaner.customer'])->findOrFail($id);
+
+        // Decode JSON strings to arrays
+        if ($attendance->image_before) {
+            $attendance->image_before = json_decode($attendance->image_before, true);
+        }
+
+        if ($attendance->image_after) {
+            $attendance->image_after = json_decode($attendance->image_after, true);
+        }
+
+        return view("$this->prefix.pages.$this->folder_controller.show", [
+            'prefix' => $this->prefix,
+            'folder' => $this->folder,
+            'segment' => $this->segment,
+            'pagename' => $this->pagename,
+            'navs' => $navs,
+            'attendance' => $attendance,
+
+        ]);
     }
 }

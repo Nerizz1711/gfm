@@ -57,6 +57,10 @@ Route::group(['middleware' => ['Webpanel']], function () {
             Route::get('/edit/{id}', [Webpanel\Setting\CustomerController::class, 'edit'])->where(['id' => '[0-9]+']);
             Route::post('/edit/{id}', [Webpanel\Setting\CustomerController::class, 'update'])->where(['id' => '[0-9]+']);
             Route::get('/destroy/{id}', [Webpanel\Setting\CustomerController::class, 'destroy'])->where(['id' => '[0-9]+']);
+            Route::get('/attendance/{id}', [Webpanel\Setting\CustomerController::class, 'atten'])->where(['id' => '[0-9]+']);
+            Route::post('/get-shifts-by-customer', [Webpanel\Setting\CustomerController::class, 'getShiftsByCustomer']);
+            Route::get('/{customer_id}/shifts', [Webpanel\Setting\CustomerController::class, 'getShifts']);
+            Route::get('/show/{id}', [Webpanel\Setting\CustomerController::class, 'show'])->where(['id' => '[0-9]+']);
         });
 
         Route::prefix('cleaner')->group(function () {
@@ -66,6 +70,8 @@ Route::group(['middleware' => ['Webpanel']], function () {
             Route::get('/edit/{id}', [Webpanel\Setting\CleanerController::class, 'edit'])->where(['id' => '[0-9]+']);
             Route::post('/edit/{id}', [Webpanel\Setting\CleanerController::class, 'update'])->where(['id' => '[0-9]+']);
             Route::get('/destroy/{id}', [Webpanel\Setting\CleanerController::class, 'destroy'])->where(['id' => '[0-9]+']);
+            Route::get('/attendance/{id}', [Webpanel\Setting\CleanerController::class, 'atten'])->where(['id' => '[0-9]+']);
+            Route::get('/show/{id}', [Webpanel\Setting\CleanerController::class, 'show'])->where(['id' => '[0-9]+']);
         });
 
         Route::prefix('attendance')->group(function () {

@@ -31,6 +31,7 @@ class CleanerModel extends Model
         'password',
         'line_id',
         'avatar',
+        'shift_id',
     ];
 
     /**
@@ -49,6 +50,11 @@ class CleanerModel extends Model
     public function customer()
     {
         return $this->belongsTo(CustomerModel::class, 'customer_id', 'id');
+    }
+    
+    public function shift()
+    {
+        return $this->belongsTo(ShiftModel::class, 'shift_id', 'id');
     }
 
     public function attendances()

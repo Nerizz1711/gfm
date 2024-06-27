@@ -13,9 +13,11 @@ class AttendanceRecordModel extends Model
 
     protected $fillable = [
         'cleaner_id',
+        'customer_id',
         'check_in_time',
         'check_out_time',
         'atten_date',
+        'noti_status',
     ];
 
     protected $casts = [

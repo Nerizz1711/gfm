@@ -170,23 +170,37 @@
                                                 </div>
                                                 <div class="card-body pt-0">
                                                     <div class="row">
-                                                        <select name="customer_id" id="customer_id"
-                                                            class="form-select" required>
-                                                            <option value="" hidden>Please select customer
-                                                            </option>
-                                                            <option value="">No select</option>
-                                                            <?php if(isset($customer)): ?>
-                                                                <?php $__currentLoopData = $customer; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $customer): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                                                    <option
-                                                                        value="<?php echo e($customer->id); ?>" <?php if(@$customer->id == @$row->customer_id): ?> selected <?php endif; ?>>
-                                                                        <?php echo e(@$customer->firstname); ?>
-
-                                                                        <?php echo e(@$customer->lastname); ?>
+                                                        <div class="col-md-6">
+                                                            <label for="customer_id">Customer</label>
+                                                            <select name="customer_id" id="customer_id"
+                                                                class="form-select" required>
+                                                                <option value="" hidden>Please select customer
+                                                                </option>
+                                                                <option value="">No select</option>
+                                                                <?php $__currentLoopData = $customer; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $cust): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                                    <option value="<?php echo e($cust->id); ?>"
+                                                                        <?php if($cust->id == $row->customer_id): ?> selected <?php endif; ?>>
+                                                                        <?php echo e($cust->comp_name); ?>
 
                                                                     </option>
                                                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                                            <?php endif; ?>
-                                                        </select>
+                                                            </select>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <label for="shift_id">Shift</label>
+                                                            <select name="shift_id" id="shift_id"
+                                                                class="form-select" required>
+                                                                <option value="" hidden>Please select shift
+                                                                </option>
+                                                                <?php $__currentLoopData = $shifts; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $shift): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                                    <option value="<?php echo e($shift->id); ?>"
+                                                                        <?php if($shift->id == $row->shift_id): ?> selected <?php endif; ?>>
+                                                                        <?php echo e($shift->name); ?>
+
+                                                                    </option>
+                                                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                                            </select>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -234,6 +248,62 @@
     <!--begin::Javascript-->
     <?php echo $__env->make("$prefix.layout.script", \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
     <script>
+        (document).ready(function() {
+            // เมื่อหน้าเว็บโหลดเสร็จ
+            $('#customer_id').change(function() {
+                // เมื่อมีการเปลี่ยนแปลงใน dropdown ของ customer_id
+                var customerId = $(this).val(); // รับค่า customer_id ที่เลือก
+
+                // เตรียม dropdown ของ shift_id
+                var shiftDropdown = $('#shift_id');
+                shiftDropdown.html(
+                    '<option value="" hidden>Please select shift</option><option value="">No select</option>'
+                    );
+
+                // ตรวจสอบว่ามี customer_id ที่ถูกเลือกหรือไม่
+                if (customerId) {
+                    // ส่ง request ไปยังเซิร์ฟเวอร์เพื่อขอข้อมูล shifts ที่เกี่ยวข้องกับ customer_id
+                    $.ajax({
+                        url: '<?php echo e(url('webpanel/customer/get-shifts-by-customer')); ?>',
+                        method: 'POST',
+                        data: {
+                            customer_id: customerId,
+                            _token: '<?php echo e(csrf_token()); ?>'
+                        },
+                        success: function(response) {
+                            // เมื่อสำเร็จในการรับข้อมูล
+                            if (response.length > 0) {
+                                // วนลูปผ่าน shifts ที่ได้รับเพื่อใส่ลงใน dropdown ของ shift_id
+                                response.forEach(function(shift) {
+                                    shiftDropdown.append('<option value="' + shift.id +
+                                        '">' + shift.name + '</option>');
+                                });
+                            }
+
+                            // ตรวจสอบว่ามี shift_id ที่เป็นค่าเริ่มต้นแล้วหรือไม่
+                            var selectedShiftId =
+                            '<?php echo e($row->shift_id); ?>'; // ค่า shift_id ที่อยู่ในฟอร์ม
+                            if (selectedShiftId) {
+                                shiftDropdown.val(
+                                selectedShiftId); // เลือก shift_id ที่ตรงกับค่าที่อยู่ในฐานข้อมูล
+                            }
+                        },
+                        error: function(xhr) {
+                            console.error(xhr);
+                        }
+                    });
+                }
+            });
+
+            // หลังจากโหลดหน้าเว็บเสร็จสิ้น
+            // ตรวจสอบว่ามีค่า shift_id ที่ถูกเลือกล่วงหน้าหรือไม่
+            var selectedShiftId = '<?php echo e($row->shift_id); ?>'; // ค่า shift_id ที่อยู่ในฟอร์ม
+            if (selectedShiftId) {
+                $('#customer_id').trigger(
+                'change'); // เรียกใช้งานเหตุการณ์ change ของ customer_id เพื่อโหลดค่า shift ที่เกี่ยวข้อง
+            }
+        });
+
         $('#resetpassword').change(function() {
             if ($(this).prop("checked") == true) {
                 $('#password').attr('disabled', false);

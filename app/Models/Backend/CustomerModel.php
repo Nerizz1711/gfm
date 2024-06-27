@@ -43,6 +43,11 @@ class CustomerModel extends Model
         return $this->hasMany(CleanerModel::class, 'customer_id', 'id');
     }
 
+    public function shifts()
+    {
+        return $this->hasMany(ShiftModel::class);
+    }
+
     public function attendances()
     {
         return $this->hasMany(AttendanceRecordModel::class, 'customer_id', 'id');

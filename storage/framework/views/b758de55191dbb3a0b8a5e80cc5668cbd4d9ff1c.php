@@ -88,12 +88,12 @@
                                                     <tr
                                                         class="text-start text-gray-400 fw-bold fs-7 text-uppercase gs-0">
                                                         <th class="text-center min-w-5px">#</th>
-                                                        <th class="text-center min-w-15px">ชื่อ นามสกุล</th>
-                                                        <th class="text-left min-w-15px">Email ลูกค้า</th>
-                                                        <th class="text-left min-w-10px">วันที่</th>
+                                                        <th class="text-center min-w-10px">วันที่</th>
+                                                        <th class="text-center min-w-15px">ชื่อลูกค้า</th>
+                                                        <th class="text-center min-w-15px">ชื่อแม่บ้าน</th>
                                                         <th class="text-center min-w-10px">เวลาเข้างาน</th>
                                                         <th class="text-center min-w-10px">เวลาออกงาน</th>
-                                                        <th class="text-center min-w-10px">การจัดการ</th>
+                                                        <th class="text-center min-w-10px">ตรวจสอบงาน</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -102,12 +102,12 @@
                                                             <tr>
                                                                 <td class="text-center">
                                                                     <?php echo e($items->pages->start + $index + 1); ?></td>
+                                                                <td class="text-left"><?php echo e($item->atten_date); ?></td>
+                                                                <td class="text-left">
+                                                                    <?php echo e($item->cleaner->customer->comp_name); ?></td>
                                                                 <td class="text-center"><?php echo e($item->cleaner->firstname); ?>
 
                                                                     <?php echo e($item->cleaner->lastname); ?></td>
-                                                                <td class="text-left">
-                                                                    <?php echo e($item->customer->comp_name); ?></td>
-                                                                <td class="text-left"><?php echo e($item->atten_date); ?></td>
                                                                 <td class="text-center"><?php echo e($item->check_in_time); ?></td>
                                                                 <td class="text-center"><?php echo e($item->check_out_time); ?>
 
@@ -228,4 +228,4 @@
 <!--end::Body-->
 
 </html>
-<?php /**PATH C:\laragon\www\gfm\resources\views/back-end/pages/setting/attendance/index.blade.php ENDPATH**/ ?>
+<?php /**PATH C:\laragon\www\gfm\resources\views/back-end/pages/setting/cleaner/atten.blade.php ENDPATH**/ ?>

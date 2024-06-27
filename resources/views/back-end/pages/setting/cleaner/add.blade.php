@@ -10,17 +10,17 @@
 <!--begin::Body-->
 
 <body id="kt_app_body" data-kt-app-layout="dark-sidebar" data-kt-app-header-fixed="true" data-kt-app-sidebar-enabled="true"
-      data-kt-app-sidebar-fixed="true" data-kt-app-sidebar-hoverable="true" data-kt-app-sidebar-push-header="true"
-      data-kt-app-sidebar-push-toolbar="true" data-kt-app-sidebar-push-footer="true" data-kt-app-toolbar-enabled="true"
-      class="app-default">
+    data-kt-app-sidebar-fixed="true" data-kt-app-sidebar-hoverable="true" data-kt-app-sidebar-push-header="true"
+    data-kt-app-sidebar-push-toolbar="true" data-kt-app-sidebar-push-footer="true" data-kt-app-toolbar-enabled="true"
+    class="app-default">
     <!--begin::App-->
     <div class="d-flex flex-column flex-root app-root" id="kt_app_root">
         <!--begin::Page-->
         <div class="app-page flex-column flex-column-fluid" id="kt_app_page">
             <!--begin::Header-->
             <div id="kt_app_header" class="app-header" data-kt-sticky="true"
-                 data-kt-sticky-activate="{default: true, lg: true}" data-kt-sticky-name="app-header-minimize"
-                 data-kt-sticky-offset="{default: '200px', lg: '0'}" data-kt-sticky-animation="false">
+                data-kt-sticky-activate="{default: true, lg: true}" data-kt-sticky-name="app-header-minimize"
+                data-kt-sticky-offset="{default: '200px', lg: '0'}" data-kt-sticky-animation="false">
                 @include("$prefix.layout.head-menu")
             </div>
             <!--end::Header-->
@@ -65,27 +65,27 @@
                                                         }
                                                     </style>
                                                     <div class="image-input image-input-empty image-input-outline image-input-placeholder mb-3"
-                                                         data-kt-image-input="true">
+                                                        data-kt-image-input="true">
                                                         <div class="image-input-wrapper w-150px h-150px"></div>
-                                                        <label class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow"
-                                                               data-kt-image-input-action="change"
-                                                               data-bs-toggle="tooltip" aria-label="Change avatar"
-                                                               data-kt-initialized="1">
+                                                        <label
+                                                            class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow"
+                                                            data-kt-image-input-action="change" data-bs-toggle="tooltip"
+                                                            aria-label="Change avatar" data-kt-initialized="1">
                                                             <i class="bi bi-pencil-fill fs-7"></i>
                                                             <input type="file" id="image" name="image"
-                                                                   accept=".png, .jpg, .jpeg">
+                                                                accept=".png, .jpg, .jpeg">
                                                             <input type="hidden" name="avatar_remove">
                                                         </label>
-                                                        <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow"
-                                                              data-kt-image-input-action="cancel"
-                                                              data-bs-toggle="tooltip" aria-label="Cancel avatar"
-                                                              data-kt-initialized="1">
+                                                        <span
+                                                            class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow"
+                                                            data-kt-image-input-action="cancel" data-bs-toggle="tooltip"
+                                                            aria-label="Cancel avatar" data-kt-initialized="1">
                                                             <i class="bi bi-x fs-2"></i>
                                                         </span>
-                                                        <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow"
-                                                              data-kt-image-input-action="remove"
-                                                              data-bs-toggle="tooltip" aria-label="Remove avatar"
-                                                              data-kt-initialized="1">
+                                                        <span
+                                                            class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow"
+                                                            data-kt-image-input-action="remove" data-bs-toggle="tooltip"
+                                                            aria-label="Remove avatar" data-kt-initialized="1">
                                                             <i class="bi bi-x fs-2"></i>
                                                         </span>
                                                     </div>
@@ -102,7 +102,7 @@
 
                                                     <div class="card-toolbar">
                                                         <div class="rounded-circle bg-success w-15px h-15px"
-                                                             id="kt_ecommerce_add_category_status"></div>
+                                                            id="kt_ecommerce_add_category_status"></div>
                                                     </div>
                                                 </div>
 
@@ -115,7 +115,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        
+
                                         <div class="col-md-9 mb-5">
                                             <div class="card card-flush py-4 mb-3">
                                                 <div class="card-header">
@@ -128,15 +128,15 @@
                                                         <div class="col-md-6">
                                                             <label class="required form-label">Phone Number </label>
                                                             <input type="text" id="phone" name="phone"
-                                                                   class="form-control mb-2" placeholder="Phone number"
-                                                                   value="">
+                                                                class="form-control mb-2" placeholder="Phone number"
+                                                                value="">
                                                         </div>
 
                                                         <div class="col-md-6">
                                                             <label class="required form-label">Email </label>
                                                             <input type="text" id="email" name="email"
-                                                                   class="form-control mb-2" placeholder="email"
-                                                                   value="">
+                                                                class="form-control mb-2" placeholder="email"
+                                                                value="">
                                                         </div>
                                                     </div>
 
@@ -178,14 +178,14 @@
                                                         <div class="col-md-6">
                                                             <label class="required form-label">Name </label>
                                                             <input type="text" id="firstname" name="firstname"
-                                                                   class="form-control mb-2" placeholder="Name"
-                                                                   value="">
+                                                                class="form-control mb-2" placeholder="Name"
+                                                                value="">
                                                         </div>
                                                         <div class="col-md-6">
                                                             <label class="required form-label">Lastname </label>
                                                             <input type="text" id="lastname" name="lastname"
-                                                                   class="form-control mb-2" placeholder="Lastname"
-                                                                   value="">
+                                                                class="form-control mb-2" placeholder="Lastname"
+                                                                value="">
                                                         </div>
                                                     </div>
 
@@ -221,20 +221,32 @@
                                                 </div>
                                                 <div class="card-body pt-0">
                                                     <div class="row">
-                                                        <select name="customer_id" id="customer_id"
+                                                        <div class="col-md-6">
+                                                            <label for="customer_id">Customer</label>
+                                                            <select name="customer_id" id="customer_id"
                                                                 class="form-select" required>
-                                                            <option value="" hidden>Please select customer
-                                                            </option>
-                                                            <option value="">No select</option>
-                                                            @if (isset($customer))
-                                                                @foreach ($customer as $customer)
-                                                                    <option value="{{ $customer->id }}">
-                                                                        {{ @$customer->firstname }}
-                                                                        {{ @$customer->lastname }}
-                                                                    </option>
-                                                                @endforeach
-                                                            @endif
-                                                        </select>
+                                                                <option value="" hidden>Please select customer
+                                                                </option>
+                                                                <option value="">No select</option>
+                                                                @if (isset($customer))
+                                                                    @foreach ($customer as $cust)
+                                                                        <option value="{{ $cust->id }}"
+                                                                            @if (@$cust->id == @$row->customer_id) selected @endif>
+                                                                            {{ @$cust->comp_name }}
+                                                                        </option>
+                                                                    @endforeach
+                                                                @endif
+                                                            </select>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <label for="shift_id">Shift</label>
+                                                            <select name="shift_id" id="shift_id"
+                                                                class="form-select" required>
+                                                                <option value="" hidden>Please select shift
+                                                                </option>
+                                                                <option value="">No select</option>
+                                                            </select>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -245,10 +257,10 @@
                                         <div class="col-md-12">
                                             <div class="d-flex justify-content-end mt-5">
                                                 <a href="{{ url("$segment/$folder") }}" id=""
-                                                   class="btn btn-light me-2">Cancel</a>
+                                                    class="btn btn-light me-2">Cancel</a>
                                                 <button type="button" id="" onclick="check_add();"
-                                                        class="btn btn-primary" style="background: #1C2842;"><span
-                                                          class="indicator-label">Save Changes</span></button>
+                                                    class="btn btn-primary" style="background: #1C2842;"><span
+                                                        class="indicator-label">Save Changes</span></button>
                                             </div>
                                         </div>
                                     </div>
@@ -301,6 +313,40 @@
         //     }
         // });
 
+        $(document).ready(function() {
+            $('#customer_id').change(function() {
+                var customerId = $(this).val();
+                var shiftDropdown = $('#shift_id');
+
+                // Clear existing options
+                shiftDropdown.html(
+                    '<option value="" hidden>Please select shift</option><option value="">No select</option>'
+                    );
+
+                if (customerId) {
+                    $.ajax({
+                        url: '{{ url('webpanel/customer/get-shifts-by-customer') }}',
+                        method: 'POST',
+                        data: {
+                            customer_id: customerId,
+                            _token: '{{ csrf_token() }}'
+                        },
+                        success: function(response) {
+                            if (response.length > 0) {
+                                response.forEach(function(shift) {
+                                    shiftDropdown.append('<option value="' + shift.id +
+                                        '">' + shift.name + '</option>');
+                                });
+                            }
+                        },
+                        error: function(xhr) {
+                            console.error(xhr);
+                        }
+                    });
+                }
+            });
+        });
+
         function readURL01(input, key) {
             console.log(key);
             if (input.files && input.files[0]) {
@@ -337,7 +383,7 @@
 
 
             if (phone == "" || email == "" || firstname == "" || lastname ==
-                "" ) {
+                "") {
                 toastr.error("Sorry, please complete the information.");
                 return false;
             }
@@ -408,7 +454,6 @@
 
             return false;
         }
-        
     </script>
     <!--end::Javascript-->
 

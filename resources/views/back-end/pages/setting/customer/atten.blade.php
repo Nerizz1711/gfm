@@ -3,7 +3,7 @@
 <!--begin::Head-->
 
 <head>
-    <?php echo $__env->make("$prefix.layout.head", \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+    @include("$prefix.layout.head")
 </head>
 <!--end::Head-->
 
@@ -21,13 +21,13 @@
             <div id="kt_app_header" class="app-header" data-kt-sticky="true"
                 data-kt-sticky-activate="{default: true, lg: true}" data-kt-sticky-name="app-header-minimize"
                 data-kt-sticky-offset="{default: '200px', lg: '0'}" data-kt-sticky-animation="false">
-                <?php echo $__env->make("$prefix.layout.head-menu", \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+                @include("$prefix.layout.head-menu")
             </div>
             <!--end::Header-->
             <div class="app-wrapper flex-column flex-row-fluid" id="kt_app_wrapper">
 
                 <!--begin::Sidebar-->
-                <?php echo $__env->make("$prefix.layout.side-menu", \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+                @include("$prefix.layout.side-menu")
                 <!--end::Sidebar-->
 
                 <!--begin::Main-->
@@ -36,7 +36,7 @@
                     <div class="d-flex flex-column flex-column-fluid">
                         <div id="kt_app_toolbar" class="app-toolbar py-3 py-lg-6">
                             <div id="kt_app_toolbar_container" class="app-container d-flex flex-stack">
-                                <?php echo $__env->make("$prefix.layout.breadcrumbs", \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+                                @include("$prefix.layout.breadcrumbs")
                             </div>
                         </div>
 
@@ -45,7 +45,10 @@
                             <div id="kt_app_content_container" class="app-container">
                                 <div class="card card-flush">
                                     <div class="card-header align-items-center py-5 gap-2 gap-md-5">
-                                        
+                                        {{-- <div class="card-toolbar flex-row-fluid justify-content-end gap-5">
+
+                                            <a href="{{ url("$segment/$folder/add") }}" class="btn btn-primary">Add</a>
+                                        </div> --}}
                                     </div>
                                     <div class="card-body pt-0">
                                         <!-- Search -->
@@ -54,21 +57,21 @@
                                                 <div class="col-md-6">
                                                     <input type="text" class="form-control form-control-solid ps-10"
                                                         id="keyword" name="keyword"
-                                                        value="<?php echo e(@Request::get('keyword')); ?>" placeholder="Keywords">
+                                                        value="{{ @Request::get('keyword') }}" placeholder="Keywords">
                                                 </div>
                                                 <div class="col-md-2">
                                                     <select id="status" name="status"
                                                         class="form-select form-select-solid">
                                                         <option value="">All</option>
                                                         <option value="Y"
-                                                            <?php if(@Request::get('status') == 'Y'): ?> selected <?php endif; ?>>Active
+                                                            @if (@Request::get('status') == 'Y') selected @endif>Active
                                                         </option>
                                                         <option value="N"
-                                                            <?php if(@Request::get('status') == 'N'): ?> selected <?php endif; ?>>
+                                                            @if (@Request::get('status') == 'N') selected @endif>
                                                             Inactive
                                                         </option>
                                                         <option value="S"
-                                                            <?php if(@Request::get('status') == 'S'): ?> selected <?php endif; ?>>
+                                                            @if (@Request::get('status') == 'S') selected @endif>
                                                             Suspended
                                                         </option>
                                                     </select>
@@ -78,8 +81,8 @@
                                         <!-- End Search -->
 
                                         <div class="hidden md:block mx-auto text-slate-500">
-                                            <b>Showing <?php echo e($items->currentPage()); ?> to <?php echo e($items->total()); ?> of
-                                                <?php echo e($items->total()); ?> entries</b>
+                                            <b>Showing {{ $items->currentPage() }} to {{ $items->total() }} of
+                                                {{ $items->total() }} entries</b>
                                         </div>
                                         <div class="table-responsive">
                                             <table class="table align-middle table-row-dashed fs-6 gy-5"
@@ -88,43 +91,41 @@
                                                     <tr
                                                         class="text-start text-gray-400 fw-bold fs-7 text-uppercase gs-0">
                                                         <th class="text-center min-w-5px">#</th>
-                                                        <th class="text-center min-w-15px">ชื่อ นามสกุล</th>
-                                                        <th class="text-left min-w-15px">Email ลูกค้า</th>
-                                                        <th class="text-left min-w-10px">วันที่</th>
+                                                        <th class="text-center min-w-10px">วันที่</th>
+                                                        <th class="text-center min-w-15px">ชื่อลูกค้า</th>
+                                                        <th class="text-center min-w-15px">ชื่อแม่บ้าน</th>
                                                         <th class="text-center min-w-10px">เวลาเข้างาน</th>
                                                         <th class="text-center min-w-10px">เวลาออกงาน</th>
-                                                        <th class="text-center min-w-10px">การจัดการ</th>
+                                                        <th class="text-center min-w-10px">ตรวจสอบงาน</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <?php if($items->count() > 0): ?>
-                                                        <?php $__currentLoopData = $items; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $index => $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                    @if ($items->count() > 0)
+                                                        @foreach ($items as $index => $item)
                                                             <tr>
                                                                 <td class="text-center">
-                                                                    <?php echo e($items->pages->start + $index + 1); ?></td>
-                                                                <td class="text-center"><?php echo e($item->cleaner->firstname); ?>
-
-                                                                    <?php echo e($item->cleaner->lastname); ?></td>
+                                                                    {{ $items->pages->start + $index + 1 }}</td>
+                                                                <td class="text-left">{{ $item->atten_date }}</td>
                                                                 <td class="text-left">
-                                                                    <?php echo e($item->customer->comp_name); ?></td>
-                                                                <td class="text-left"><?php echo e($item->atten_date); ?></td>
-                                                                <td class="text-center"><?php echo e($item->check_in_time); ?></td>
-                                                                <td class="text-center"><?php echo e($item->check_out_time); ?>
-
+                                                                    {{ $item->cleaner->customer->comp_name }}</td>
+                                                                <td class="text-center">{{ $item->cleaner->firstname }}
+                                                                    {{ $item->cleaner->lastname }}</td>
+                                                                <td class="text-center">{{ $item->check_in_time }}</td>
+                                                                <td class="text-center">{{ $item->check_out_time }}
                                                                 </td>
                                                                 <td class="text-center">
                                                                     <a
-                                                                        href="<?php echo e(url("$segment/$folder/show/$item->id")); ?>">
+                                                                        href="{{ url("$segment/$folder/show/$item->id") }}">
                                                                         <i class="fa fa-search fa-2x"></i>
                                                                     </a>
                                                                 </td>
                                                             </tr>
-                                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                                    <?php else: ?>
+                                                        @endforeach
+                                                    @else
                                                         <tr>
                                                             <td colspan="7" class="text-center">- No items -</td>
                                                         </tr>
-                                                    <?php endif; ?>
+                                                    @endif
                                                 </tbody>
                                             </table>
                                         </div>
@@ -137,8 +138,7 @@
                                                     </p>
                                                 </div>
                                                 <div class="col-sm-7">
-                                                    <?php echo $items->appends(request()->all())->links('back-end.layout.pagination'); ?>
-
+                                                    {!! $items->appends(request()->all())->links('back-end.layout.pagination') !!}
                                                 </div>
                                             </div>
                                         </div>
@@ -157,7 +157,7 @@
 
             <!--begin::Footer-->
             <div id="kt_app_footer" class="app-footer">
-                <?php echo $__env->make("$prefix.layout.footer", \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+                @include("$prefix.layout.footer")
             </div>
             <!--End::Footer-->
         </div>
@@ -174,7 +174,7 @@
     </div>
 
     <!--begin::Javascript-->
-    <?php echo $__env->make("$prefix.layout.script", \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+    @include("$prefix.layout.script")
     <script>
         var fullUrl = window.location.origin + window.location.pathname;
 
@@ -182,9 +182,9 @@
             var sort = $('#sort_' + id).val();
             $.ajax({
                 type: 'POST',
-                url: fullUrl + "<?php echo e('/changeSort'); ?>",
+                url: fullUrl + "{{ '/changeSort' }}",
                 data: {
-                    "_token": "<?php echo e(csrf_token()); ?>",
+                    "_token": "{{ csrf_token() }}",
                     id: id,
                     sort: sort
                 },
@@ -228,4 +228,3 @@
 <!--end::Body-->
 
 </html>
-<?php /**PATH C:\laragon\www\gfm\resources\views/back-end/pages/setting/attendance/index.blade.php ENDPATH**/ ?>

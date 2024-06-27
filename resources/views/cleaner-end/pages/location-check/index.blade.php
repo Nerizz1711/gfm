@@ -92,17 +92,17 @@
 <!--begin::Body-->
 
 <body id="kt_app_body" data-kt-app-layout="dark-sidebar" data-kt-app-header-fixed="true" data-kt-app-sidebar-enabled="true"
-      data-kt-app-sidebar-fixed="true" data-kt-app-sidebar-hoverable="true" data-kt-app-sidebar-push-header="true"
-      data-kt-app-sidebar-push-toolbar="true" data-kt-app-sidebar-push-footer="true" data-kt-app-toolbar-enabled="true"
-      class="app-default">
+    data-kt-app-sidebar-fixed="true" data-kt-app-sidebar-hoverable="true" data-kt-app-sidebar-push-header="true"
+    data-kt-app-sidebar-push-toolbar="true" data-kt-app-sidebar-push-footer="true" data-kt-app-toolbar-enabled="true"
+    class="app-default">
     <!--begin::App-->
     <div class="d-flex flex-column flex-root app-root" id="kt_app_root">
         <!--begin::Page-->
         <div class="app-page flex-column flex-column-fluid" id="kt_app_page">
             <!--begin::Header-->
             <div id="kt_app_header" class="app-header" data-kt-sticky="true"
-                 data-kt-sticky-activate="{default: true, lg: true}" data-kt-sticky-name="app-header-minimize"
-                 data-kt-sticky-offset="{default: '200px', lg: '0'}" data-kt-sticky-animation="false">
+                data-kt-sticky-activate="{default: true, lg: true}" data-kt-sticky-name="app-header-minimize"
+                data-kt-sticky-offset="{default: '200px', lg: '0'}" data-kt-sticky-animation="false">
                 {{-- @include("$prefix.layout.head-menu") --}}
             </div>
             <!--end::Header-->
@@ -145,7 +145,7 @@
                                     @csrf
                                     <label for="images_before">ภาพก่อนทำงาน:</label>
                                     <input type="file" name="images_before[]" id="images_before" accept="image/*"
-                                           multiple>
+                                        multiple>
                                     <br>
                                     <br>
                                     <button type="submit" class="btn btn-primary">อัพโหลดภาพ</button>
@@ -156,7 +156,7 @@
                                     @csrf
                                     <label for="images_after">ภาพหลังทำงาน:</label>
                                     <input type="file" name="images_after[]" id="images_after" accept="image/*"
-                                           multiple>
+                                        multiple>
                                     <br>
                                     <br>
                                     <button type="submit" class="btn btn-primary">อัพโหลดภาพ</button>
@@ -249,7 +249,16 @@
                                 longitude: lon
                             })
                         })
-                        .then(response => response.json())
+                        //.then(response => response.json())
+                        .then(response => {
+                            // ตรวจสอบว่า content-type เป็น JSON หรือไม่
+                            const contentType = response.headers.get('content-type');
+                            if (contentType && contentType.includes('application/json')) {
+                                return response.json();
+                            } else {
+                                throw new Error('Response is not JSON');
+                            }
+                        })
                         .then(data => {
                             if (data.status === 'inside') {
                                 Swal.fire({

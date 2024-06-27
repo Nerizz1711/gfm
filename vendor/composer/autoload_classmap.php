@@ -67,6 +67,7 @@ return array(
     'App\\Models\\Backend\\ProvinceModel' => $baseDir . '/app/Models/Backend/ProvinceModel.php',
     'App\\Models\\Backend\\RoleModel' => $baseDir . '/app/Models/Backend/RoleModel.php',
     'App\\Models\\Backend\\Role_listModel' => $baseDir . '/app/Models/Backend/Role_listModel.php',
+    'App\\Models\\Backend\\ShiftModel' => $baseDir . '/app/Models/Backend/ShiftModel.php',
     'App\\Models\\Backend\\TambonModel' => $baseDir . '/app/Models/Backend/TambonModel.php',
     'App\\Models\\Backend\\Test_formModel' => $baseDir . '/app/Models/Backend/Test_formModel.php',
     'App\\Models\\Backend\\TestformModel' => $baseDir . '/app/Models/Backend/TestformModel.php',

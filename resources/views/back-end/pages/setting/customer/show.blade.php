@@ -65,7 +65,7 @@
                                             @if ($attendance->image_before && is_array($attendance->image_before))
                                                 @foreach ($attendance->image_before as $image)
                                                     <img src="{{ asset($image) }}" alt="Image Before"
-                                                         class="img-fluid mb-3" style="max-width: 100px;">
+                                                         class="img-fluid mb-3">
                                                 @endforeach
                                             @else
                                                 <p>ไม่มีรูปภาพก่อนทำงาน</p>
@@ -75,7 +75,7 @@
                                             @if ($attendance->image_after && is_array($attendance->image_after))
                                                 @foreach ($attendance->image_after as $image)
                                                     <img src="{{ asset($image) }}" alt="Image After"
-                                                         class="img-fluid mb-3" style="max-width: 100px;">
+                                                         class="img-fluid mb-3">
                                                 @endforeach
                                             @else
                                                 <p>ไม่มีรูปภาพหลังทำงาน</p>

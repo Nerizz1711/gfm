@@ -118,11 +118,12 @@
                                                                 </td>
                                                                 <td class="text-left"><?php echo e(@$item->email); ?></td>
                                                                 <td class="text-left"><?php echo e(@$item->phone); ?></td>
-                                                                
-                                                                
                                                                 <td class="text-center"><?php echo Helper::new_status($item->isActive); ?></td>
                                                                 <td class="text-center">
-                                                                    
+                                                                    <a
+                                                                        href="<?php echo e(url("$segment/$folder/attendance/$item->id")); ?>"><i
+                                                                            class="fa fa-search fa-2x"
+                                                                            style="margin-right:5px;"></i></a>
                                                                     <a
                                                                         href="<?php echo e(url("$segment/$folder/edit/$item->id")); ?>"><i
                                                                             class="fa fa-edit fa-2x"

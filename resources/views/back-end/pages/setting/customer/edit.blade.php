@@ -196,7 +196,7 @@
                                                     </div>
 
                                                     <div class="row">
-                                                        <div class="col-md-12">
+                                                        <div class="col-md-12 mb-5">
                                                             <label class="required form-label">Address </label>
                                                             <textarea id="address" name="address" class="form-control mb-2" placeholder="Address">{{ @$row->address }}</textarea>
                                                         </div>
@@ -204,7 +204,7 @@
 
 
                                                     <div class="row">
-                                                        <div class="col-md-6">
+                                                        <div class="col-md-6 mb-5">
                                                             <label class="required form-label">Latitude </label>
                                                             <input type="text" id="lat" name="lat"
                                                                 class="form-control mb-2" placeholder="Lattitude"
@@ -215,6 +215,47 @@
                                                             <input type="text" id="long" name="long"
                                                                 class="form-control mb-2" placeholder="Longitude"
                                                                 value="{{ @$row->long }}">
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <label class="form-label">Shifts</label>
+                                                            <div id="shifts_container">
+                                                                @if (isset($shifts))
+                                                                    @foreach ($shifts as $shift)
+                                                                        <div class="shift-row">
+                                                                            <input type="text" name="shift_name[]"
+                                                                                class="form-control mb-2"
+                                                                                placeholder="Shift name"
+                                                                                value="{{ $shift->name }}">
+                                                                            <input type="time" name="start_time[]"
+                                                                                class="form-control mb-2"
+                                                                                placeholder="Start time"
+                                                                                value="{{ $shift->start_time }}">
+                                                                            <input type="time" name="end_time[]"
+                                                                                class="form-control mb-5"
+                                                                                placeholder="End time"
+                                                                                value="{{ $shift->end_time }}">
+                                                                        </div>
+                                                                    @endforeach
+                                                                @else
+                                                                    <div class="shift-row">
+                                                                        <input type="text" name="shift_name[]"
+                                                                            class="form-control mb-2"
+                                                                            placeholder="Shift name" value="">
+                                                                        <input type="time" name="start_time[]"
+                                                                            class="form-control mb-2"
+                                                                            placeholder="Start time" value="">
+                                                                        <input type="time" name="end_time[]"
+                                                                            class="form-control mb-5"
+                                                                            placeholder="End time" value="">
+                                                                    </div>
+                                                                @endif
+                                                            </div>
+                                                            <button type="button" id="add_shift"
+                                                                class="btn btn-primary mt-2">Add
+                                                                Shift</button>
                                                         </div>
                                                     </div>
 
@@ -303,6 +344,28 @@
                 reader.readAsDataURL(input.files[0]);
             }
         }
+
+        // JavaScript to handle adding new shifts
+        document.getElementById('add_shift').addEventListener('click', function() {
+            var shiftRow = document.createElement('div');
+            shiftRow.classList.add('shift-row');
+            shiftRow.innerHTML = `
+                <input type="text" name="shift_name[]" class="form-control mb-2" placeholder="Shift name" value="">
+                <input type="time" name="start_time[]" class="form-control mb-2" placeholder="Start time" value="">
+                <input type="time" name="end_time[]" class="form-control mb-2" placeholder="End time" value="">
+                <button type="button" class="btn btn-danger btn-sm delete-shift">Delete</button>
+                <hr>
+            `;
+            document.getElementById('shifts_container').appendChild(shiftRow);
+
+            // Attach event listener to the delete button
+            var deleteButtons = document.getElementsByClassName('delete-shift');
+            for (var i = 0; i < deleteButtons.length; i++) {
+                deleteButtons[i].addEventListener('click', function() {
+                    this.parentNode.remove(); // Remove the shift row when delete button is clicked
+                });
+            }
+        });
 
         function check_add() {
             var formData = new FormData($("#form_submit")[0]);
