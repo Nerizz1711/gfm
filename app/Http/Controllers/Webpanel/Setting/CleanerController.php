@@ -28,21 +28,62 @@ class CleanerController extends Controller
     protected $pagename = 'Cleaner';
 
 
+    // public function items($parameters)
+    // {
+
+    //     $isActive = Arr::get($parameters, 'status');
+    //     $keyword = Arr::get($parameters, 'keyword');
+    //     $paginate = Arr::get($parameters, 'total', 15);
+    //     $query = CleanerModel::with('customer');
+    //     if ($isActive) {
+    //         $query = $query->where('isActive', $isActive);
+    //     }
+    //     if ($keyword) {
+    //         $query = $query->where('firstname', 'LIKE', '%' . trim($keyword) . '%');
+    //         $query = $query->orwhere('lastname', 'LIKE', '%' . trim($keyword) . '%');
+    //     }
+    //     $query = $query->orderBy('id', 'asc');
+    //     $results = $query->paginate($paginate);
+
+    //     return $results;
+    // }
     public function items($parameters)
     {
-
+        // ดึงค่าตัวแปรจาก parameters
         $isActive = Arr::get($parameters, 'status');
         $keyword = Arr::get($parameters, 'keyword');
         $paginate = Arr::get($parameters, 'total', 15);
+
+        // เริ่มการสร้าง query
         $query = CleanerModel::with('customer');
+
+        // ตรวจสอบและเพิ่มเงื่อนไขการค้นหาตาม isActive
         if ($isActive) {
-            $query = $query->where('isActive', $isActive);
+            $query->where('isActive', $isActive);
         }
+
+        // ตรวจสอบและเพิ่มเงื่อนไขการค้นหาตาม keyword
         if ($keyword) {
-            $query = $query->where('firstname', 'LIKE', '%' . trim($keyword) . '%');
-            $query = $query->orwhere('lastname', 'LIKE', '%' . trim($keyword) . '%');
+            $query->where(function ($q) use ($keyword) {
+                $q->where('firstname', 'LIKE', '%' . trim($keyword) . '%')
+                    ->orWhere(
+                        'lastname',
+                        'LIKE',
+                        '%' . trim($keyword) . '%'
+                    )
+                    ->orWhereHas('customer', function ($q) use ($keyword) {
+                        $q->where('comp_name', 'LIKE', '%' . trim($keyword) . '%');
+                    })
+                    ->orWhere('email', 'LIKE', '%' . trim($keyword) . '%')
+                    ->orWhere('phone', 'LIKE', '%' . trim($keyword) . '%');
+            });
         }
-        $query = $query->orderBy('id', 'asc');
+
+
+        // เรียงลำดับตาม id ในลำดับน้อยไปหามาก
+        $query->orderBy('id', 'asc');
+
+        // สร้าง pagination และคืนค่าผลลัพธ์
         $results = $query->paginate($paginate);
 
         return $results;

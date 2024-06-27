@@ -85,9 +85,14 @@ class AttendanceController extends Controller
                 $query->where('customer_id', $id);
             })->with('cleaner.customer')->get();
 
+            // แยกข้อมูลเป็นชุด read และ unread
+            $readNotifications = $data->where('noti_status', 'read');
+            $unreadNotifications = $data->where('noti_status', 'unread');
+
             return response()->json([
                 'message' => 'success',
-                'data' => $data,
+                'read' => $readNotifications,
+                'unread' => $unreadNotifications,
             ], 200);
         } catch (\Exception $e) {
             return response()->json([
@@ -96,6 +101,7 @@ class AttendanceController extends Controller
             ], 400);
         }
     }
+
 
     public function updateNotiStatus(Request $request, $id)
     {
@@ -121,7 +127,4 @@ class AttendanceController extends Controller
             ], 400);
         }
     }
-
-
-    
 }

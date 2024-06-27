@@ -195,7 +195,8 @@
                                                                 <?php $__currentLoopData = $shifts; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $shift): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                                     <option value="<?php echo e($shift->id); ?>"
                                                                         <?php if($shift->id == $row->shift_id): ?> selected <?php endif; ?>>
-                                                                        <?php echo e($shift->name); ?>
+                                                                        <?php echo e($shift->name); ?> : <?php echo e($shift->start_time); ?> -
+                                                                        <?php echo e($shift->end_time); ?>
 
                                                                     </option>
                                                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
@@ -258,7 +259,7 @@
                 var shiftDropdown = $('#shift_id');
                 shiftDropdown.html(
                     '<option value="" hidden>Please select shift</option><option value="">No select</option>'
-                    );
+                );
 
                 // ตรวจสอบว่ามี customer_id ที่ถูกเลือกหรือไม่
                 if (customerId) {
@@ -276,16 +277,19 @@
                                 // วนลูปผ่าน shifts ที่ได้รับเพื่อใส่ลงใน dropdown ของ shift_id
                                 response.forEach(function(shift) {
                                     shiftDropdown.append('<option value="' + shift.id +
-                                        '">' + shift.name + '</option>');
+                                        '">' + shift.name + ':' + shift.start_time +
+                                        '-' +
+                                        shift.end_time + '</option>');
                                 });
                             }
 
                             // ตรวจสอบว่ามี shift_id ที่เป็นค่าเริ่มต้นแล้วหรือไม่
                             var selectedShiftId =
-                            '<?php echo e($row->shift_id); ?>'; // ค่า shift_id ที่อยู่ในฟอร์ม
+                                '<?php echo e($row->shift_id); ?>'; // ค่า shift_id ที่อยู่ในฟอร์ม
                             if (selectedShiftId) {
                                 shiftDropdown.val(
-                                selectedShiftId); // เลือก shift_id ที่ตรงกับค่าที่อยู่ในฐานข้อมูล
+                                    selectedShiftId
+                                ); // เลือก shift_id ที่ตรงกับค่าที่อยู่ในฐานข้อมูล
                             }
                         },
                         error: function(xhr) {
@@ -300,7 +304,7 @@
             var selectedShiftId = '<?php echo e($row->shift_id); ?>'; // ค่า shift_id ที่อยู่ในฟอร์ม
             if (selectedShiftId) {
                 $('#customer_id').trigger(
-                'change'); // เรียกใช้งานเหตุการณ์ change ของ customer_id เพื่อโหลดค่า shift ที่เกี่ยวข้อง
+                    'change'); // เรียกใช้งานเหตุการณ์ change ของ customer_id เพื่อโหลดค่า shift ที่เกี่ยวข้อง
             }
         });
 

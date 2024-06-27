@@ -52,27 +52,30 @@
                                     </div>
                                     <div class="card-body pt-0">
                                         <!-- Search -->
-                                        <form method="get">
+                                        <form method="get" action="{{ url()->current() }}">
                                             <div class="row mb-5">
                                                 <div class="col-md-6">
                                                     <input type="text" class="form-control form-control-solid ps-10"
                                                         id="keyword" name="keyword"
-                                                        value="{{ @Request::get('keyword') }}" placeholder="Keywords">
+                                                        value="{{ Request::get('keyword') }}" placeholder="Keywords">
                                                 </div>
                                                 <div class="col-md-2">
                                                     <select id="status" name="status"
                                                         class="form-select form-select-solid">
                                                         <option value="">All</option>
                                                         <option value="Y"
-                                                            @if (@Request::get('status') == 'Y') selected @endif>Active
+                                                            @if (Request::get('status') == 'Y') selected @endif>Active
                                                         </option>
                                                         <option value="N"
-                                                            @if (@Request::get('status') == 'N') selected @endif>Inactive
+                                                            @if (Request::get('status') == 'N') selected @endif>Inactive
                                                         </option>
-                                                        <option value="S"
-                                                            @if (@Request::get('status') == 'S') selected @endif>Suspended
-                                                        </option>
+                                                        {{-- <option value="S"
+                                                            @if (Request::get('status') == 'S') selected @endif>Suspended
+                                                        </option> --}}
                                                     </select>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <button type="submit" class="btn btn-primary">Search</button>
                                                 </div>
                                             </div>
                                         </form>
@@ -112,8 +115,7 @@
                                                                 </td>
                                                                 <td class="text-left">
                                                                     @if ($item->customer)
-                                                                        {{ $item->customer->firstname }}
-                                                                        {{ $item->customer->lastname }}
+                                                                        {{ $item->customer->comp_name }}
                                                                     @endif
                                                                 </td>
                                                                 <td class="text-left">{{ @$item->email }}</td>

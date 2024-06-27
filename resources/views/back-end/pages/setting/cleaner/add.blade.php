@@ -321,7 +321,7 @@
                 // Clear existing options
                 shiftDropdown.html(
                     '<option value="" hidden>Please select shift</option><option value="">No select</option>'
-                    );
+                );
 
                 if (customerId) {
                     $.ajax({
@@ -335,7 +335,9 @@
                             if (response.length > 0) {
                                 response.forEach(function(shift) {
                                     shiftDropdown.append('<option value="' + shift.id +
-                                        '">' + shift.name + '</option>');
+                                        '">' + shift.name + ':' + shift.start_time +
+                                        '-' +
+                                        shift.end_time + '</option>');
                                 });
                             }
                         },
