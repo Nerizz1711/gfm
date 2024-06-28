@@ -24,18 +24,27 @@ class AttendanceController extends Controller
             $request->validate([
                 'date' => 'required|date',
             ]);
+    
             // Retrieve the date from the request
             $date = $request->input('date');
+    
             // Find cleaner by ID
-            $cleaner = CleanerModel::findOrFail($id);
+            $cleaner = CleanerModel::with('customer')->findOrFail($id);
+    
             // Fetch attendance records where cleaner_id matches the provided id and atten_date matches the provided date
             $attendanceRecords = AttendanceRecordModel::where('cleaner_id', $id)
                 ->whereDate('atten_date', $date)
                 ->with(['cleaner', 'cleaner.customer'])
                 ->get();
-
+    
+            // Check if there are no attendance records
+            if ($attendanceRecords->isEmpty()) {
+                $attendanceRecords = null;
+            }
+    
             return response()->json([
                 'message' => 'success',
+                'cleaner' => $cleaner,
                 'data' => $attendanceRecords,
             ], 200);
         } catch (\Exception $e) {
@@ -86,8 +95,8 @@ class AttendanceController extends Controller
             })->with('cleaner.customer')->get();
 
             // แยกข้อมูลเป็นชุด read และ unread
-            $readNotifications = $data->where('noti_status', 'read');
-            $unreadNotifications = $data->where('noti_status', 'unread');
+            $readNotifications = $data->where('noti_status', 'read')->values(); // ใช้ values() เพื่อให้ได้ collection ที่เป็น array
+            $unreadNotifications = $data->where('noti_status', 'unread')->values(); // ใช้ values() เพื่อให้ได้ collection ที่เป็น array
 
             return response()->json([
                 'message' => 'success',

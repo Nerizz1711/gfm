@@ -18,7 +18,7 @@ class AddColumnsToTbCleanerTable extends Migration
             $table->date('birthday')->after('nickname')->nullable();
             $table->integer('age')->after('birthday')->nullable();
             $table->text('address')->after('age')->nullable();
-            $table->rememberToken()->after('phone')->nullable();
+            // $table->rememberToken()->after('phone')->nullable();
         });
     }
 
@@ -34,7 +34,7 @@ class AddColumnsToTbCleanerTable extends Migration
             $table->dropColumn('birthday');
             $table->dropColumn('age');
             $table->dropColumn('address');
-            $table->dropColumn('remember_token');
+            // $table->dropColumn('remember_token');
         });
     }
 }
