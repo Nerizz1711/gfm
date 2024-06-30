@@ -53,9 +53,9 @@
                                 <form action="{{ route('login.line.verify') }}" method="POST">
                                     @csrf
                                     <input type="hidden" name="line_id" value="{{ $lineUser->getId() }}">
-                                    <label for="phone">Phone Number:</label>
-                                    <input type="text" name="phone" id="phone" required>
-                                    <button type="submit">Verify</button>
+                                    <label class="required form-label" for="phone">Phone Number:</label>
+                                    <input type="text" name="phone" id="phone" class="form-control mb-2" required>
+                                    <button type="submit" class="btn btn-success">Verify</button>
                                 </form>
                                 @if (session('error'))
                                     <p>{{ session('error') }}</p>

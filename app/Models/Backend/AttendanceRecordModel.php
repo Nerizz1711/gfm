@@ -18,6 +18,7 @@ class AttendanceRecordModel extends Model
         'check_out_time',
         'atten_date',
         'noti_status',
+        'status_atten',
     ];
 
     protected $casts = [

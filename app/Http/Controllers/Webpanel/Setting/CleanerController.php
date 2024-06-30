@@ -91,12 +91,31 @@ class CleanerController extends Controller
 
     public function attendanceItems($parameters)
     {
+        $date = Arr::get($parameters, 'date');
         $cleaner_id = Arr::get($parameters, 'cleaner_id');
+        $keyword = Arr::get($parameters, 'keyword');
         $paginate = Arr::get($parameters, 'total', 15);
+
 
         $query = AttendanceRecordModel::where('cleaner_id', $cleaner_id)
             ->with(['cleaner.customer'])
             ->orderBy('atten_date', 'desc');
+
+        if ($keyword) {
+            $query->where(function ($query) use ($keyword) {
+                $query->whereHas('cleaner', function ($q) use ($keyword) {
+                    $q->where('firstname', 'LIKE', '%' . trim($keyword) . '%')
+                        ->orWhere('lastname', 'LIKE', '%' . trim($keyword) . '%');
+                })
+                    ->orWhereHas('cleaner.customer', function ($q) use ($keyword) {
+                        $q->where('comp_name', 'LIKE', '%' . trim($keyword) . '%');
+                    });
+            });
+        }
+
+        if ($date) {
+            $query = $query->whereDate('atten_date', $date);
+        }
 
         $results = $query->paginate($paginate);
 

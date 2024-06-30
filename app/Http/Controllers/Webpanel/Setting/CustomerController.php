@@ -38,8 +38,10 @@ class CustomerController extends Controller
             $query = $query->where('isActive', $isActive);
         }
         if ($keyword) {
-            $query = $query->where('firstname', 'LIKE', '%' . trim($keyword) . '%');
-            $query = $query->orwhere('lastname', 'LIKE', '%' . trim($keyword) . '%');
+            $query = $query->where('name', 'LIKE', '%' . trim($keyword) . '%');
+            $query = $query->orwhere('comp_name', 'LIKE', '%' . trim($keyword) . '%');
+            $query = $query->orWhere('email', 'LIKE', '%' . trim($keyword) . '%');
+            $query = $query->orwhere('phone', 'LIKE', '%' . trim($keyword) . '%');
         }
         $query = $query->orderBy('id', 'asc');
         $results = $query->paginate($paginate);
@@ -232,15 +234,22 @@ class CustomerController extends Controller
                     $endTimes = $request->input('end_time');
 
                     foreach ($shiftNames as $key => $name) {
-                        $shift = new ShiftModel();
-                        $shift->customer_id = $data->id; // Assuming you have customer_id column in Shift model
-                        $shift->name = $name;
-                        $shift->start_time = $startTimes[$key];
-                        $shift->end_time = $endTimes[$key];
-                        $shift->save();
-                        $shifts[] = $shift; // Optional: collect shifts for response or further processing
+                        // อัพเดตหรือสร้าง shift ใหม่ตาม customer_id และ name
+                        $shift = ShiftModel::updateOrCreate(
+                            [
+                                'customer_id' => $data->id,
+                                'name' => $name
+                            ],
+                            [
+                                'start_time' => $startTimes[$key],
+                                'end_time' => $endTimes[$key]
+                            ]
+                        );
+
+                        $shifts[] = $shift; // เก็บ shifts สำหรับการตอบกลับหรือการประมวลผลเพิ่มเติม
                     }
                 }
+
 
                 $arr['status'] = 200;
                 $arr['message'] = 'Successfully.';

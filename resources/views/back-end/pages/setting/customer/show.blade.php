@@ -55,7 +55,7 @@
                                         <div class="container mt-5">
                                             <h5 class="card-title">ชื่อ นามสกุล: {{ $attendance->cleaner->firstname }}
                                                 {{ $attendance->cleaner->lastname }}</h5>
-                                            <p class="card-text">Email ลูกค้า:
+                                            <p class="card-text">ชื่อลูกค้า:
                                                 {{ $attendance->cleaner->customer->email }}</p>
                                             <p class="card-text">วันที่: {{ $attendance->atten_date }}</p>
                                             <p class="card-text">เวลาเข้างาน: {{ $attendance->check_in_time }}</p>

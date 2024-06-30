@@ -107,6 +107,7 @@ class LocationController extends Controller
                         'check_in_time' => Carbon::now(),
                         'customer_id' => $cleaner->customer->id,
                         'noti_status' => "unread",
+                        'status_atten' => "checkIn",
                     ]
                 );
 
@@ -150,6 +151,7 @@ class LocationController extends Controller
                     $attendance->update([
                         'check_out_time' => Carbon::now(),
                         'noti_status' => "unread",
+                        'status_atten' => "checkOut",
                     ]);
                     return response()->json(['status' => 'inside']);
                 }
@@ -202,6 +204,7 @@ class LocationController extends Controller
             }
             $record->image_before = json_encode($imagePaths); // Store as JSON array
             $record->noti_status = "unread";
+            $record->status_atten = "uploadImgBefore";
             $record->save();
         }
 
@@ -235,6 +238,7 @@ class LocationController extends Controller
             }
             $record->image_after = json_encode($imagePaths); // Store as JSON array
             $record->noti_status = "unread";
+            $record->status_atten = "uploadImgAfter";
             $record->save();
         }
 

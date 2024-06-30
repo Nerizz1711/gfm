@@ -10,17 +10,17 @@
 <!--begin::Body-->
 
 <body id="kt_app_body" data-kt-app-layout="dark-sidebar" data-kt-app-header-fixed="true" data-kt-app-sidebar-enabled="true"
-    data-kt-app-sidebar-fixed="true" data-kt-app-sidebar-hoverable="true" data-kt-app-sidebar-push-header="true"
-    data-kt-app-sidebar-push-toolbar="true" data-kt-app-sidebar-push-footer="true" data-kt-app-toolbar-enabled="true"
-    class="app-default">
+      data-kt-app-sidebar-fixed="true" data-kt-app-sidebar-hoverable="true" data-kt-app-sidebar-push-header="true"
+      data-kt-app-sidebar-push-toolbar="true" data-kt-app-sidebar-push-footer="true" data-kt-app-toolbar-enabled="true"
+      class="app-default">
     <!--begin::App-->
     <div class="d-flex flex-column flex-root app-root" id="kt_app_root">
         <!--begin::Page-->
         <div class="app-page flex-column flex-column-fluid" id="kt_app_page">
             <!--begin::Header-->
             <div id="kt_app_header" class="app-header" data-kt-sticky="true"
-                data-kt-sticky-activate="{default: true, lg: true}" data-kt-sticky-name="app-header-minimize"
-                data-kt-sticky-offset="{default: '200px', lg: '0'}" data-kt-sticky-animation="false">
+                 data-kt-sticky-activate="{default: true, lg: true}" data-kt-sticky-name="app-header-minimize"
+                 data-kt-sticky-offset="{default: '200px', lg: '0'}" data-kt-sticky-animation="false">
                 @include("$prefix.layout.head-menu")
             </div>
             <!--end::Header-->
@@ -52,29 +52,31 @@
                                     </div>
                                     <div class="card-body pt-0">
                                         <!-- Search -->
-                                        <form method="get">
+                                        <form method="get" action="{{ url()->current() }}">
                                             <div class="row mb-5">
                                                 <div class="col-md-6">
                                                     <input type="text" class="form-control form-control-solid ps-10"
-                                                        id="keyword" name="keyword"
-                                                        value="{{ @Request::get('keyword') }}" placeholder="Keywords">
+                                                           id="keyword" name="keyword"
+                                                           value="{{ Request::get('keyword') }}" placeholder="Keywords">
                                                 </div>
                                                 <div class="col-md-2">
                                                     <select id="status" name="status"
-                                                        class="form-select form-select-solid">
+                                                            class="form-select form-select-solid">
                                                         <option value="">All</option>
                                                         <option value="Y"
-                                                            @if (@Request::get('status') == 'Y') selected @endif>Active
+                                                                @if (Request::get('status') == 'Y') selected @endif>Active
                                                         </option>
                                                         <option value="N"
-                                                            @if (@Request::get('status') == 'N') selected @endif>
+                                                                @if (Request::get('status') == 'N') selected @endif>
                                                             Inactive
                                                         </option>
-                                                        <option value="S"
-                                                            @if (@Request::get('status') == 'S') selected @endif>
-                                                            Suspended
-                                                        </option>
+                                                        {{-- <option value="S"
+                                                        @if (Request::get('status') == 'S') selected @endif>Suspended
+                                                    </option> --}}
                                                     </select>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <button type="submit" class="btn btn-primary">Search</button>
                                                 </div>
                                             </div>
                                         </form>
@@ -86,7 +88,7 @@
                                         </div>
                                         <div class="table-responsive">
                                             <table class="table align-middle table-row-dashed fs-6 gy-5"
-                                                id="kt_ecommerce_products_table">
+                                                   id="kt_ecommerce_products_table">
                                                 <thead>
                                                     <tr
                                                         class="text-start text-gray-400 fw-bold fs-7 text-uppercase gs-0">
@@ -115,7 +117,7 @@
                                                                 </td>
                                                                 <td class="text-center">
                                                                     <a
-                                                                        href="{{ url("$segment/$folder/show/$item->id") }}">
+                                                                       href="{{ url("$segment/$folder/show/$item->id") }}">
                                                                         <i class="fa fa-search fa-2x"></i>
                                                                     </a>
                                                                 </td>

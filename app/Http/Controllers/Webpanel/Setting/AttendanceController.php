@@ -25,22 +25,23 @@ class AttendanceController extends Controller
 
     public function items($parameters)
     {
-        $isActive = Arr::get($parameters, 'status');
+        $date = Arr::get($parameters, 'date');
         $keyword = Arr::get($parameters, 'keyword');
         $paginate = Arr::get($parameters, 'total', 15);
         $query = AttendanceRecordModel::with(['cleaner.customer']);
 
-        if ($isActive) {
-            $query = $query->whereHas('cleaner', function ($q) use ($isActive) {
-                $q->where('isActive', $isActive);
-            });
-        }
-
         if ($keyword) {
             $query = $query->whereHas('cleaner', function ($q) use ($keyword) {
                 $q->where('firstname', 'LIKE', '%' . trim($keyword) . '%')
-                    ->orWhere('lastname', 'LIKE', '%' . trim($keyword) . '%');
+                    ->orWhere('lastname', 'LIKE', '%' . trim($keyword) . '%')
+                    ->orWhereHas('customer', function ($q) use ($keyword) {
+                        $q->where('comp_name', 'LIKE', '%' . trim($keyword) . '%');
+                    });
             });
+        }
+
+        if ($date) {
+            $query = $query->whereDate('atten_date', $date);
         }
 
         $query = $query->orderBy('id', 'asc');
@@ -88,7 +89,7 @@ class AttendanceController extends Controller
         if ($attendance->image_after) {
             $attendance->image_after = json_decode($attendance->image_after, true);
         }
-        
+
         return view("$this->prefix.pages.$this->folder_controller.show", [
             'prefix' => $this->prefix,
             'folder' => $this->folder,
