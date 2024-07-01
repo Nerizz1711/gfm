@@ -32,6 +32,14 @@ class CleanerModel extends Model
         'line_id',
         'avatar',
         'shift_id',
+        'nickname',
+        'age',
+        'birthday',
+        'sex',
+        'address',
+        'firstname',
+        'lastname',
+        'crime_history',
     ];
 
     /**

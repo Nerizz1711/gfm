@@ -9,18 +9,13 @@
 
 <!--begin::Body-->
 
-<body id="kt_app_body" data-kt-app-layout="dark-sidebar" data-kt-app-header-fixed="true" data-kt-app-sidebar-enabled="true"
-    data-kt-app-sidebar-fixed="true" data-kt-app-sidebar-hoverable="true" data-kt-app-sidebar-push-header="true"
-    data-kt-app-sidebar-push-toolbar="true" data-kt-app-sidebar-push-footer="true" data-kt-app-toolbar-enabled="true"
-    class="app-default">
+<body id="kt_app_body" data-kt-app-layout="dark-sidebar" data-kt-app-header-fixed="true" data-kt-app-sidebar-enabled="true" data-kt-app-sidebar-fixed="true" data-kt-app-sidebar-hoverable="true" data-kt-app-sidebar-push-header="true" data-kt-app-sidebar-push-toolbar="true" data-kt-app-sidebar-push-footer="true" data-kt-app-toolbar-enabled="true" class="app-default">
     <!--begin::App-->
     <div class="d-flex flex-column flex-root app-root" id="kt_app_root">
         <!--begin::Page-->
         <div class="app-page flex-column flex-column-fluid" id="kt_app_page">
             <!--begin::Header-->
-            <div id="kt_app_header" class="app-header" data-kt-sticky="true"
-                data-kt-sticky-activate="{default: true, lg: true}" data-kt-sticky-name="app-header-minimize"
-                data-kt-sticky-offset="{default: '200px', lg: '0'}" data-kt-sticky-animation="false">
+            <div id="kt_app_header" class="app-header" data-kt-sticky="true" data-kt-sticky-activate="{default: true, lg: true}" data-kt-sticky-name="app-header-minimize" data-kt-sticky-offset="{default: '200px', lg: '0'}" data-kt-sticky-animation="false">
                 @include("$prefix.layout.head-menu")
             </div>
             <!--end::Header-->
@@ -64,28 +59,17 @@
                                                             background-image: url('assets/media/svg/files/blank-image-dark.svg');
                                                         }
                                                     </style>
-                                                    <div class="image-input image-input-empty image-input-outline image-input-placeholder mb-3"
-                                                        data-kt-image-input="true">
+                                                    <div class="image-input image-input-empty image-input-outline image-input-placeholder mb-3" data-kt-image-input="true">
                                                         <div class="image-input-wrapper w-150px h-150px"></div>
-                                                        <label
-                                                            class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow"
-                                                            data-kt-image-input-action="change" data-bs-toggle="tooltip"
-                                                            aria-label="Change avatar" data-kt-initialized="1">
+                                                        <label class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="change" data-bs-toggle="tooltip" aria-label="Change avatar" data-kt-initialized="1">
                                                             <i class="bi bi-pencil-fill fs-7"></i>
-                                                            <input type="file" id="image" name="image"
-                                                                accept=".png, .jpg, .jpeg">
+                                                            <input type="file" id="image" name="image" accept=".png, .jpg, .jpeg">
                                                             <input type="hidden" name="avatar_remove">
                                                         </label>
-                                                        <span
-                                                            class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow"
-                                                            data-kt-image-input-action="cancel" data-bs-toggle="tooltip"
-                                                            aria-label="Cancel avatar" data-kt-initialized="1">
+                                                        <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="cancel" data-bs-toggle="tooltip" aria-label="Cancel avatar" data-kt-initialized="1">
                                                             <i class="bi bi-x fs-2"></i>
                                                         </span>
-                                                        <span
-                                                            class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow"
-                                                            data-kt-image-input-action="remove" data-bs-toggle="tooltip"
-                                                            aria-label="Remove avatar" data-kt-initialized="1">
+                                                        <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="remove" data-bs-toggle="tooltip" aria-label="Remove avatar" data-kt-initialized="1">
                                                             <i class="bi bi-x fs-2"></i>
                                                         </span>
                                                     </div>
@@ -101,8 +85,7 @@
                                                     </div>
 
                                                     <div class="card-toolbar">
-                                                        <div class="rounded-circle bg-success w-15px h-15px"
-                                                            id="kt_ecommerce_add_category_status"></div>
+                                                        <div class="rounded-circle bg-success w-15px h-15px" id="kt_ecommerce_add_category_status"></div>
                                                     </div>
                                                 </div>
 
@@ -127,88 +110,67 @@
                                                     <div class="row">
                                                         <div class="col-md-6">
                                                             <label class="required form-label">Phone Number </label>
-                                                            <input type="text" id="phone" name="phone"
-                                                                class="form-control mb-2" placeholder="Phone number"
-                                                                value="">
+                                                            <input type="text" id="phone" name="phone" class="form-control mb-2" placeholder="Phone number" value="">
                                                         </div>
 
                                                         <div class="col-md-6">
                                                             <label class="required form-label">Email </label>
-                                                            <input type="text" id="email" name="email"
-                                                                class="form-control mb-2" placeholder="email"
-                                                                value="">
+                                                            <input type="text" id="email" name="email" class="form-control mb-2" placeholder="email" value="">
                                                         </div>
                                                     </div>
 
-                                                    {{-- <div class="row">
-                                                        <div class="col-md-6 mb-5">
-                                                            <label class="required form-label">Password </label>
-                                                            <div class="input-group col-mb-6">
-                                                                <input type="password" id="password"
-                                                                    class="form-control" name="password"
-                                                                    placeholder="Password" autocomplete="off">
-                                                                <div class="input-group-append">
-                                                                    <div class="input-group-text">
-                                                                        <span class="card-link show_pass"><i
-                                                                                class="far fa-eye"
-                                                                                data-id="password"></i></span>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <label class="required form-label">Nickname </label>
+                                                            <input type="text" id="nickname" name="nickname" class="form-control mb-2" placeholder="Nickname" value="">
                                                         </div>
-                                                        <div class="col-md-6 mb-5">
-                                                            <label class="required form-label">Confirm password
-                                                            </label>
-                                                            <div class="input-group col-mb-6">
-                                                                <input type="password" id="confirm_password"
-                                                                    class="form-control" name="confirm_password"
-                                                                    placeholder="Confirm password" autocomplete="off">
-                                                                <div class="input-group-append">
-                                                                    <div class="input-group-text">
-                                                                        <span class="card-link show_pass_confirm"><i
-                                                                                class="far fa-eye"
-                                                                                data-id="confirm_password"></i></span>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
+
+                                                        <div class="col-md-6">
+                                                            <label class="required form-label">Age </label>
+                                                            <input type="text" id="age" name="age" class="form-control mb-2" placeholder="Age" value="">
                                                         </div>
-                                                    </div> --}}
+                                                    </div>
 
                                                     <div class="row">
                                                         <div class="col-md-6">
                                                             <label class="required form-label">Name </label>
-                                                            <input type="text" id="firstname" name="firstname"
-                                                                class="form-control mb-2" placeholder="Name"
-                                                                value="">
+                                                            <input type="text" id="firstname" name="firstname" class="form-control mb-2" placeholder="Name" value="">
                                                         </div>
                                                         <div class="col-md-6">
                                                             <label class="required form-label">Lastname </label>
-                                                            <input type="text" id="lastname" name="lastname"
-                                                                class="form-control mb-2" placeholder="Lastname"
-                                                                value="">
+                                                            <input type="text" id="lastname" name="lastname" class="form-control mb-2" placeholder="Lastname" value="">
                                                         </div>
                                                     </div>
 
-
-                                                    {{-- <div class="row">
+                                                    <div class="row">
                                                         <div class="col-md-6">
                                                             <label class="required form-label">Gender </label>
-                                                            <select name="sex" id="sex"
-                                                                class="form-select mb-2">
+                                                            <select name="sex" id="sex" class="form-select mb-2">
                                                                 <option disable hidden selected value="">Please
                                                                     Select</option>
                                                                 <option value="Male">Male</option>
                                                                 <option value="Female">Female</option>
-                                                                <option value="None">None</option>
                                                             </select>
                                                         </div>
                                                         <div class="col-md-6">
                                                             <label class="required form-label">Date of Birth </label>
-                                                            <input type="date" id="birthday" name="birthday"
-                                                                class="form-control mb-2" placeholder="DD/MM/YYYY"
-                                                                value="">
+                                                            <input type="date" id="birthday" name="birthday" class="form-control mb-2" placeholder="DD/MM/YYYY" value="">
                                                         </div>
-                                                    </div> --}}
+                                                    </div>
+
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <label class="required form-label">Address </label>
+                                                            <textarea id="address" name="address" class="form-control mb-2" placeholder="Address"></textarea>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <label class="required form-label">Crime history </label>
+                                                            <input type="file" name="crime_history" id="crime_history" class="form-control mb-2">
+                                                        </div>
+                                                    </div>
 
                                                 </div>
                                             </div>
@@ -223,15 +185,13 @@
                                                     <div class="row">
                                                         <div class="col-md-6">
                                                             <label for="customer_id">Customer</label>
-                                                            <select name="customer_id" id="customer_id"
-                                                                class="form-select" required>
+                                                            <select name="customer_id" id="customer_id" class="form-select" required>
                                                                 <option value="" hidden>Please select customer
                                                                 </option>
                                                                 <option value="">No select</option>
                                                                 @if (isset($customer))
                                                                     @foreach ($customer as $cust)
-                                                                        <option value="{{ $cust->id }}"
-                                                                            @if (@$cust->id == @$row->customer_id) selected @endif>
+                                                                        <option value="{{ $cust->id }}" @if (@$cust->id == @$row->customer_id) selected @endif>
                                                                             {{ @$cust->comp_name }}
                                                                         </option>
                                                                     @endforeach
@@ -240,8 +200,7 @@
                                                         </div>
                                                         <div class="col-md-6">
                                                             <label for="shift_id">Shift</label>
-                                                            <select name="shift_id" id="shift_id"
-                                                                class="form-select" required>
+                                                            <select name="shift_id" id="shift_id" class="form-select" required>
                                                                 <option value="" hidden>Please select shift
                                                                 </option>
                                                                 <option value="">No select</option>
@@ -256,11 +215,8 @@
                                     <div class="row">
                                         <div class="col-md-12">
                                             <div class="d-flex justify-content-end mt-5">
-                                                <a href="{{ url("$segment/$folder") }}" id=""
-                                                    class="btn btn-light me-2">Cancel</a>
-                                                <button type="button" id="" onclick="check_add();"
-                                                    class="btn btn-primary" style="background: #1C2842;"><span
-                                                        class="indicator-label">Save Changes</span></button>
+                                                <a href="{{ url("$segment/$folder") }}" id="" class="btn btn-light me-2">Cancel</a>
+                                                <button type="button" id="" onclick="check_add();" class="btn btn-primary" style="background: #1C2842;"><span class="indicator-label">Save Changes</span></button>
                                             </div>
                                         </div>
                                     </div>
@@ -371,12 +327,14 @@
             var phone = $('#phone').val();
             var firstname = $('#firstname').val();
             var lastname = $('#lastname').val();
+            var nickname = $('#nickname').val();
+            var age = $('#age').val();
             var customer_id = $('#customer_id').val();
-
+            var birthday = $('#birthday').val();
+            var sex = $('#sex').val();
             // var password = $('#password').val();
             // var confirm_password = $('#confirm_password').val();
-            // var birthday = $('#birthday').val();
-            // var sex = $('#sex').val();
+
 
 
             // var profile_name = $('#profile_name').val();
@@ -385,7 +343,7 @@
 
 
             if (phone == "" || email == "" || firstname == "" || lastname ==
-                "") {
+                "" || nickname == "" || age == "" || birthday == "" || sex == "") {
                 toastr.error("Sorry, please complete the information.");
                 return false;
             }

@@ -270,6 +270,9 @@ class CleanerController extends Controller
             $data->phone = $request->phone;
             $data->customer_id = $request->customer_id;
             $data->shift_id = $request->shift_id;
+            $data->nickname = $request->nickname;
+            $data->age = $request->age;
+            $data->birthday = $request->birthday;
 
 
             // $data->idcard = $request->idcard;
@@ -282,6 +285,13 @@ class CleanerController extends Controller
                 Storage::disk('public')->delete($data->image);
                 $image = FunctionControl::upload_image2($file, 'cleaner');
                 $data->image = $image['image'];
+            }
+
+            $crime = $request->crime_history;
+            if ($crime) {
+                Storage::disk('public')->delete($data->crime_history);
+                $image = FunctionControl::upload_image2($crime, 'cleaner');
+                $data->crime_history = $image['image'];
             }
 
             if ($data->save()) {
