@@ -8,7 +8,7 @@ use App\Http\Controllers\Functions as Functions;
 
 
 
-
+Route::get('policy', [Webpanel\PolicyController::class, 'index']);
 
 Route::get('webpanel/login', [Webpanel\AuthController::class, 'getLogin']);
 
