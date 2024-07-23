@@ -150,7 +150,6 @@
                                                                     Select</option>
                                                                 <option value="Male">Male</option>
                                                                 <option value="Female">Female</option>
-                                                                <option value="None">None</option>
                                                             </select>
                                                         </div>
                                                         <div class="col-md-6">
@@ -329,12 +328,14 @@
             var phone = $('#phone').val();
             var firstname = $('#firstname').val();
             var lastname = $('#lastname').val();
+            var nickname = $('#nickname').val();
+            var age = $('#age').val();
             var customer_id = $('#customer_id').val();
-
+            var birthday = $('#birthday').val();
+            var sex = $('#sex').val();
             // var password = $('#password').val();
             // var confirm_password = $('#confirm_password').val();
-            // var birthday = $('#birthday').val();
-            // var sex = $('#sex').val();
+
 
 
             // var profile_name = $('#profile_name').val();
@@ -343,7 +344,7 @@
 
 
             if (phone == "" || email == "" || firstname == "" || lastname ==
-                "") {
+                "" || nickname == "" || age == "" || birthday == "" || sex == "") {
                 toastr.error("Sorry, please complete the information.");
                 return false;
             }
