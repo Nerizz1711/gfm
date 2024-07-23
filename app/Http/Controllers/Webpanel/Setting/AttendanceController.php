@@ -25,7 +25,8 @@ class AttendanceController extends Controller
 
     public function items($parameters)
     {
-        $date = Arr::get($parameters, 'date');
+        $start_date = Arr::get($parameters, 'start_date');
+        $end_date = Arr::get($parameters, 'end_date');
         $keyword = Arr::get($parameters, 'keyword');
         $paginate = Arr::get($parameters, 'total', 15);
         $query = AttendanceRecordModel::with(['cleaner.customer']);
@@ -40,10 +41,10 @@ class AttendanceController extends Controller
             });
         }
 
-        if ($date) {
-            $query = $query->whereDate('atten_date', $date);
+        if ($start_date && $end_date) {
+            $query = $query->whereBetween('atten_date', [$start_date, $end_date]);
         }
-
+        
         $query = $query->orderBy('id', 'asc');
         $results = $query->paginate($paginate);
 

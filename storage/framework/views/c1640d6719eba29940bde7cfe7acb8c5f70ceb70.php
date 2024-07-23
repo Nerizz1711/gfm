@@ -63,7 +63,7 @@
                                             <?php if($attendance->image_before && is_array($attendance->image_before)): ?>
                                                 <?php $__currentLoopData = $attendance->image_before; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $image): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                     <img src="<?php echo e(asset($image)); ?>" alt="Image Before"
-                                                         class="img-fluid mb-3">
+                                                         class="img-fluid mb-3" style="max-width: 100px;">
                                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                             <?php else: ?>
                                                 <p>ไม่มีรูปภาพก่อนทำงาน</p>
@@ -73,7 +73,7 @@
                                             <?php if($attendance->image_after && is_array($attendance->image_after)): ?>
                                                 <?php $__currentLoopData = $attendance->image_after; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $image): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                     <img src="<?php echo e(asset($image)); ?>" alt="Image After"
-                                                         class="img-fluid mb-3">
+                                                         class="img-fluid mb-3" style="max-width: 100px;">
                                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                             <?php else: ?>
                                                 <p>ไม่มีรูปภาพหลังทำงาน</p>
@@ -166,4 +166,4 @@
 <!--end::Body-->
 
 </html>
-<?php /**PATH C:\laragon\www\gfm\resources\views/back-end/pages/setting/cleaner/show.blade.php ENDPATH**/ ?>
+<?php /**PATH C:\laragon\www\gfm\resources\views/back-end/pages/setting/attendance/show.blade.php ENDPATH**/ ?>
