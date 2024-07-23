@@ -11,18 +11,13 @@
 
 <!--begin::Body-->
 
-<body id="kt_app_body" data-kt-app-layout="dark-sidebar" data-kt-app-header-fixed="true" data-kt-app-sidebar-enabled="true"
-      data-kt-app-sidebar-fixed="true" data-kt-app-sidebar-hoverable="true" data-kt-app-sidebar-push-header="true"
-      data-kt-app-sidebar-push-toolbar="true" data-kt-app-sidebar-push-footer="true" data-kt-app-toolbar-enabled="true"
-      class="app-default">
+<body id="kt_app_body" data-kt-app-layout="dark-sidebar" data-kt-app-header-fixed="true" data-kt-app-sidebar-enabled="true" data-kt-app-sidebar-fixed="true" data-kt-app-sidebar-hoverable="true" data-kt-app-sidebar-push-header="true" data-kt-app-sidebar-push-toolbar="true" data-kt-app-sidebar-push-footer="true" data-kt-app-toolbar-enabled="true" class="app-default">
     <!--begin::App-->
     <div class="d-flex flex-column flex-root app-root" id="kt_app_root">
         <!--begin::Page-->
         <div class="app-page flex-column flex-column-fluid" id="kt_app_page">
             <!--begin::Header-->
-            <div id="kt_app_header" class="app-header" data-kt-sticky="true"
-                 data-kt-sticky-activate="{default: true, lg: true}" data-kt-sticky-name="app-header-minimize"
-                 data-kt-sticky-offset="{default: '200px', lg: '0'}" data-kt-sticky-animation="false">
+            <div id="kt_app_header" class="app-header" data-kt-sticky="true" data-kt-sticky-activate="{default: true, lg: true}" data-kt-sticky-name="app-header-minimize" data-kt-sticky-offset="{default: '200px', lg: '0'}" data-kt-sticky-animation="false">
                 @include("$prefix.layout.head-menu")
             </div>
             <!--end::Header-->
@@ -56,28 +51,17 @@
                                         <!-- Search -->
                                         <form method="get" action="{{ url()->current() }}">
                                             <div class="row mb-5">
-                                                <div class="col-md-6">
-                                                    <input type="text" class="form-control form-control-solid ps-10"
-                                                           id="keyword" name="keyword"
-                                                           value="{{ Request::get('keyword') }}" placeholder="Keywords">
+                                                <div class="col-md-5">
+                                                <p>search</p>
+                                                    <input type="text" class="form-control form-control-solid ps-10" id="keyword" name="keyword" value="{{ Request::get('keyword') }}" placeholder="Keywords">
                                                 </div>
                                                 <div class="col-md-2">
-                                                    <div class="input-group date">
-                                                        <input type="text" class="form-control form-control-solid"
-                                                               id="date" name="date"
-                                                               value="{{ Request::get('date') }}" placeholder="Date">
-                                                        <span class="input-group-addon">
-                                                            <i class="glyphicon glyphicon-calendar"></i>
-                                                        </span>
-                                                    </div>
-                                                    <script>
-                                                        $(document).ready(function() {
-                                                            $('#date').datepicker({
-                                                                format: 'yyyy-mm-dd',
-                                                                autoclose: true
-                                                            });
-                                                        });
-                                                    </script>
+                                                <p>start date</p>
+                                                    <input type="date" id="start_date" name="start_date" class="form-control form-control-solid ps-10" placeholder="Start date" value="">
+                                                </div>
+                                                <div class="col-md-2">
+                                                <p>end date</p>
+                                                    <input type="date" id="end_date" name="end_date" class="form-control form-control-solid ps-10" placeholder="End date" value="">
                                                 </div>
                                                 <div class="col-md-2">
                                                     <button type="submit" class="btn btn-primary">Search</button>
@@ -90,11 +74,9 @@
                                                 {{ $items->total() }} entries</b>
                                         </div>
                                         <div class="table-responsive">
-                                            <table class="table align-middle table-row-dashed fs-6 gy-5"
-                                                   id="kt_ecommerce_products_table">
+                                            <table class="table align-middle table-row-dashed fs-6 gy-5" id="kt_ecommerce_products_table">
                                                 <thead>
-                                                    <tr
-                                                        class="text-start text-gray-400 fw-bold fs-7 text-uppercase gs-0">
+                                                    <tr class="text-start text-gray-400 fw-bold fs-7 text-uppercase gs-0">
                                                         <th class="text-center min-w-5px">#</th>
                                                         <th class="text-center min-w-15px">ชื่อ นามสกุล</th>
                                                         <th class="text-left min-w-15px">ชื่อลูกค้า</th>
@@ -119,8 +101,7 @@
                                                                 <td class="text-center">{{ $item->check_out_time }}
                                                                 </td>
                                                                 <td class="text-center">
-                                                                    <a
-                                                                       href="{{ url("$segment/$folder/show/$item->id") }}">
+                                                                    <a href="{{ url("$segment/$folder/show/$item->id") }}">
                                                                         <i class="fa fa-search fa-2x"></i>
                                                                     </a>
                                                                 </td>

@@ -91,11 +91,11 @@ class CleanerController extends Controller
 
     public function attendanceItems($parameters)
     {
-        $date = Arr::get($parameters, 'date');
+        $start_date = Arr::get($parameters, 'start_date');
+        $end_date = Arr::get($parameters, 'end_date');
         $cleaner_id = Arr::get($parameters, 'cleaner_id');
         $keyword = Arr::get($parameters, 'keyword');
         $paginate = Arr::get($parameters, 'total', 15);
-
 
         $query = AttendanceRecordModel::where('cleaner_id', $cleaner_id)
             ->with(['cleaner.customer'])
@@ -113,8 +113,8 @@ class CleanerController extends Controller
             });
         }
 
-        if ($date) {
-            $query = $query->whereDate('atten_date', $date);
+        if ($start_date && $end_date) {
+            $query = $query->whereBetween('atten_date', [$start_date, $end_date]);
         }
 
         $results = $query->paginate($paginate);
@@ -270,6 +270,9 @@ class CleanerController extends Controller
             $data->phone = $request->phone;
             $data->customer_id = $request->customer_id;
             $data->shift_id = $request->shift_id;
+            $data->nickname = $request->nickname;
+            $data->age = $request->age;
+            $data->birthday = $request->birthday;
 
 
             // $data->idcard = $request->idcard;
@@ -282,6 +285,13 @@ class CleanerController extends Controller
                 Storage::disk('public')->delete($data->image);
                 $image = FunctionControl::upload_image2($file, 'cleaner');
                 $data->image = $image['image'];
+            }
+
+            $crime = $request->crime_history;
+            if ($crime) {
+                Storage::disk('public')->delete($data->crime_history);
+                $image = FunctionControl::upload_image2($crime, 'cleaner');
+                $data->crime_history = $image['image'];
             }
 
             if ($data->save()) {

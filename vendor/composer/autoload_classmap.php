@@ -6494,6 +6494,7 @@ return array(
     'phpseclib3\\Exception\\FileNotFoundException' => $vendorDir . '/phpseclib/phpseclib/phpseclib/Exception/FileNotFoundException.php',
     'phpseclib3\\Exception\\InconsistentSetupException' => $vendorDir . '/phpseclib/phpseclib/phpseclib/Exception/InconsistentSetupException.php',
     'phpseclib3\\Exception\\InsufficientSetupException' => $vendorDir . '/phpseclib/phpseclib/phpseclib/Exception/InsufficientSetupException.php',
+    'phpseclib3\\Exception\\InvalidPacketLengthException' => $vendorDir . '/phpseclib/phpseclib/phpseclib/Exception/InvalidPacketLengthException.php',
     'phpseclib3\\Exception\\NoKeyLoadedException' => $vendorDir . '/phpseclib/phpseclib/phpseclib/Exception/NoKeyLoadedException.php',
     'phpseclib3\\Exception\\NoSupportedAlgorithmsException' => $vendorDir . '/phpseclib/phpseclib/phpseclib/Exception/NoSupportedAlgorithmsException.php',
     'phpseclib3\\Exception\\UnableToConnectException' => $vendorDir . '/phpseclib/phpseclib/phpseclib/Exception/UnableToConnectException.php',

@@ -4,23 +4,20 @@
 
 <head>
     <?php echo $__env->make("$prefix.layout.head", \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+    <!-- Metronic JS -->
+    <script src="path_to_metronic_assets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
 </head>
 <!--end::Head-->
 
 <!--begin::Body-->
 
-<body id="kt_app_body" data-kt-app-layout="dark-sidebar" data-kt-app-header-fixed="true" data-kt-app-sidebar-enabled="true"
-      data-kt-app-sidebar-fixed="true" data-kt-app-sidebar-hoverable="true" data-kt-app-sidebar-push-header="true"
-      data-kt-app-sidebar-push-toolbar="true" data-kt-app-sidebar-push-footer="true" data-kt-app-toolbar-enabled="true"
-      class="app-default">
+<body id="kt_app_body" data-kt-app-layout="dark-sidebar" data-kt-app-header-fixed="true" data-kt-app-sidebar-enabled="true" data-kt-app-sidebar-fixed="true" data-kt-app-sidebar-hoverable="true" data-kt-app-sidebar-push-header="true" data-kt-app-sidebar-push-toolbar="true" data-kt-app-sidebar-push-footer="true" data-kt-app-toolbar-enabled="true" class="app-default">
     <!--begin::App-->
     <div class="d-flex flex-column flex-root app-root" id="kt_app_root">
         <!--begin::Page-->
         <div class="app-page flex-column flex-column-fluid" id="kt_app_page">
             <!--begin::Header-->
-            <div id="kt_app_header" class="app-header" data-kt-sticky="true"
-                 data-kt-sticky-activate="{default: true, lg: true}" data-kt-sticky-name="app-header-minimize"
-                 data-kt-sticky-offset="{default: '200px', lg: '0'}" data-kt-sticky-animation="false">
+            <div id="kt_app_header" class="app-header" data-kt-sticky="true" data-kt-sticky-activate="{default: true, lg: true}" data-kt-sticky-name="app-header-minimize" data-kt-sticky-offset="{default: '200px', lg: '0'}" data-kt-sticky-animation="false">
                 <?php echo $__env->make("$prefix.layout.head-menu", \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
             </div>
             <!--end::Header-->
@@ -51,24 +48,17 @@
                                         <!-- Search -->
                                         <form method="get" action="<?php echo e(url()->current()); ?>">
                                             <div class="row mb-5">
-                                                <div class="col-md-6">
-                                                    <input type="text" class="form-control form-control-solid ps-10"
-                                                           id="keyword" name="keyword"
-                                                           value="<?php echo e(Request::get('keyword')); ?>" placeholder="Keywords">
+                                                <div class="col-md-5">
+                                                <p>search</p>
+                                                    <input type="text" class="form-control form-control-solid ps-10" id="keyword" name="keyword" value="<?php echo e(Request::get('keyword')); ?>" placeholder="Keywords">
                                                 </div>
                                                 <div class="col-md-2">
-                                                    <select id="status" name="status"
-                                                            class="form-select form-select-solid">
-                                                        <option value="">All</option>
-                                                        <option value="Y"
-                                                                <?php if(Request::get('status') == 'Y'): ?> selected <?php endif; ?>>Active
-                                                        </option>
-                                                        <option value="N"
-                                                                <?php if(Request::get('status') == 'N'): ?> selected <?php endif; ?>>
-                                                            Inactive
-                                                        </option>
-                                                        
-                                                    </select>
+                                                <p>start date</p>
+                                                    <input type="date" id="start_date" name="start_date" class="form-control form-control-solid ps-10" placeholder="Start date" value="">
+                                                </div>
+                                                <div class="col-md-2">
+                                                <p>end date</p>
+                                                    <input type="date" id="end_date" name="end_date" class="form-control form-control-solid ps-10" placeholder="End date" value="">
                                                 </div>
                                                 <div class="col-md-2">
                                                     <button type="submit" class="btn btn-primary">Search</button>
@@ -81,14 +71,12 @@
                                                 <?php echo e($items->total()); ?> entries</b>
                                         </div>
                                         <div class="table-responsive">
-                                            <table class="table align-middle table-row-dashed fs-6 gy-5"
-                                                   id="kt_ecommerce_products_table">
+                                            <table class="table align-middle table-row-dashed fs-6 gy-5" id="kt_ecommerce_products_table">
                                                 <thead>
-                                                    <tr
-                                                        class="text-start text-gray-400 fw-bold fs-7 text-uppercase gs-0">
+                                                    <tr class="text-start text-gray-400 fw-bold fs-7 text-uppercase gs-0">
                                                         <th class="text-center min-w-5px">#</th>
                                                         <th class="text-center min-w-15px">ชื่อ นามสกุล</th>
-                                                        <th class="text-left min-w-15px">Email ลูกค้า</th>
+                                                        <th class="text-left min-w-15px">ชื่อลูกค้า</th>
                                                         <th class="text-left min-w-10px">วันที่</th>
                                                         <th class="text-center min-w-10px">เวลาเข้างาน</th>
                                                         <th class="text-center min-w-10px">เวลาออกงาน</th>
@@ -112,8 +100,7 @@
 
                                                                 </td>
                                                                 <td class="text-center">
-                                                                    <a
-                                                                       href="<?php echo e(url("$segment/$folder/show/$item->id")); ?>">
+                                                                    <a href="<?php echo e(url("$segment/$folder/show/$item->id")); ?>">
                                                                         <i class="fa fa-search fa-2x"></i>
                                                                     </a>
                                                                 </td>

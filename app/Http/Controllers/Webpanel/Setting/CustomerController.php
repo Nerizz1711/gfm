@@ -51,7 +51,10 @@ class CustomerController extends Controller
 
     public function attendanceItems($parameters)
     {
+        $start_date = Arr::get($parameters, 'start_date');
+        $end_date = Arr::get($parameters, 'end_date');
         $customer_id = Arr::get($parameters, 'customer_id');
+        $keyword = Arr::get($parameters, 'keyword');
         $paginate = Arr::get($parameters, 'total', 15);
 
         $query = AttendanceRecordModel::whereHas('cleaner', function ($q) use ($customer_id) {
@@ -59,6 +62,22 @@ class CustomerController extends Controller
         })
             ->with(['cleaner.customer'])
             ->orderBy('atten_date', 'desc');
+
+        if ($keyword) {
+            $query->where(function ($query) use ($keyword) {
+                $query->whereHas('cleaner', function ($q) use ($keyword) {
+                    $q->where('firstname', 'LIKE', '%' . trim($keyword) . '%')
+                        ->orWhere('lastname', 'LIKE', '%' . trim($keyword) . '%');
+                })
+                    ->orWhereHas('cleaner.customer', function ($q) use ($keyword) {
+                        $q->where('comp_name', 'LIKE', '%' . trim($keyword) . '%');
+                    });
+            });
+        }
+
+        if ($start_date && $end_date) {
+            $query = $query->whereBetween('atten_date', [$start_date, $end_date]);
+        }
 
         $results = $query->paginate($paginate);
 

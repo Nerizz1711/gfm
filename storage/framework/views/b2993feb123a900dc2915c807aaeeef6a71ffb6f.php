@@ -53,7 +53,7 @@
                                             <h5 class="card-title">ชื่อ นามสกุล: <?php echo e($attendance->cleaner->firstname); ?>
 
                                                 <?php echo e($attendance->cleaner->lastname); ?></h5>
-                                            <p class="card-text">Email ลูกค้า:
+                                            <p class="card-text">ชื่อลูกค้า:
                                                 <?php echo e($attendance->cleaner->customer->email); ?></p>
                                             <p class="card-text">วันที่: <?php echo e($attendance->atten_date); ?></p>
                                             <p class="card-text">เวลาเข้างาน: <?php echo e($attendance->check_in_time); ?></p>
